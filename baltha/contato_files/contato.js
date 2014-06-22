@@ -3,5 +3,5 @@
 setTransparentGifURL('Media/transparent.gif');function hostedOnDM()
 {return false;}
 function onPageLoad()
-{loadMozillaCSS('Contato_files/ContatoMoz.css')
+{loadMozillaCSS('contato_files/contatoMoz.css')
 adjustLineHeightIfTooBig('id1');adjustFontSizeIfTooBig('id1');performPostEffectsFixups()}
