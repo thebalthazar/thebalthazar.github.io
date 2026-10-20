@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Photos Support</title>
+<meta name="description" content="Help and contact for the Contact Photos app: find a picture for every contact and save it to the contact card.">
+<link rel="icon" href="icon.png">
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1d1d1f;
+    --muted: #6e6e73;
+    --rule: #d2d2d7;
+    --accent: #0a5fb4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #000000;
+      --text: #f5f5f7;
+      --muted: #a1a1a6;
+      --rule: #38383a;
+      --accent: #4da3ff;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #000000;
+    --text: #f5f5f7;
+    --muted: #a1a1a6;
+    --rule: #38383a;
+    --accent: #4da3ff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 680px; margin: 0 auto; padding: 48px 16px 72px; }
+  header { display: flex; align-items: center; gap: 16px; padding-bottom: 28px; border-bottom: 1px solid var(--rule); }
+  header img { width: 72px; height: 72px; }
+  header h1 { font-size: 32px; line-height: 1.15; margin: 0; letter-spacing: -0.015em; }
+  header p { margin: 6px 0 0; color: var(--muted); }
+  nav { padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 15px; }
+  nav a { margin-right: 18px; }
+  section { padding: 28px 0 8px; border-bottom: 1px solid var(--rule); }
+  section:last-of-type { border-bottom: 0; }
+  h2 { font-size: 21px; margin: 0 0 10px; letter-spacing: -0.005em; }
+  ol { padding-left: 22px; margin: 0 0 16px; }
+  li { margin: 0 0 8px; }
+  dl { margin: 0; }
+  dt { font-weight: 600; padding-top: 16px; border-top: 1px solid var(--rule); }
+  dt:first-of-type { border-top: 0; padding-top: 4px; }
+  dd { margin: 4px 0 16px; }
+  p { margin: 0 0 12px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .contact { font-size: 19px; }
+  footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icon.png" alt="">
+    <div>
+      <h1>Contact Photos</h1>
+      <p>Find a picture for every contact and save it to the contact card.</p>
+    </div>
+  </header>
+
+  <nav><a href="#english">English</a><a href="#portugues">Português</a><a href="privacy.html">Privacy Policy</a></nav>
+
+  <section id="english" lang="en">
+    <h2>Getting started</h2>
+    <ol>
+      <li>Allow access to Contacts when the app asks.</li>
+      <li>The list opens on <strong>No Photo</strong>, showing only contacts without a picture. Tap one.</li>
+      <li>An image search opens with the contact's name and company. Tap the suggestions under the search field to add their company, job title, city or a social network, or type your own words.</li>
+      <li>Tap <strong>Choose Photo</strong>, then tap the picture you want.</li>
+      <li>Move and zoom the picture inside the circle and tap <strong>Save</strong>.</li>
+    </ol>
+
+    <h2>Questions</h2>
+    <dl>
+      <dt>The app says it has no access to my contacts.</dt>
+      <dd>Open the Settings app, find Contact Photos and allow access to Contacts.</dd>
+      <dt>I see "Could not get that picture".</dt>
+      <dd>Some websites block downloads. Tap the crop button at the bottom of the screen and cut the picture straight from the screen instead.</dd>
+      <dt>The saved photo looks blurry.</dt>
+      <dd>Tap the picture in the search results first, so the larger version opens, and then use Choose Photo on that larger picture.</dd>
+      <dt>I can't save a photo for some contacts.</dt>
+      <dd>Contacts from read-only accounts, such as some company directories, can't be changed by any app.</dd>
+      <dt>The photo doesn't show on my other devices.</dt>
+      <dd>Photos sync through the account that holds the contact, such as iCloud, Google or Exchange. Check that Contacts sync is turned on for that account on each device.</dd>
+      <dt>How do I remove a photo?</dt>
+      <dd>Swipe left on the contact in the list, or open the contact and use the More menu.</dd>
+    </dl>
+
+    <h2>Contact</h2>
+    <p class="contact"><a href="mailto:contato@baltha.com.br?subject=Contact%20Photos">contato@baltha.com.br</a></p>
+    <p>Please include your device model and iOS version if something isn't working.</p>
+  </section>
+
+  <section id="portugues" lang="pt-BR">
+    <h2>Primeiros passos</h2>
+    <ol>
+      <li>Permita o acesso aos Contatos quando o app pedir.</li>
+      <li>A lista abre em <strong>No Photo</strong>, mostrando só os contatos sem foto. Toque em um deles.</li>
+      <li>Abre uma busca de imagens com o nome e a empresa do contato. Toque nas sugestões abaixo do campo de busca para incluir empresa, cargo, cidade ou uma rede social, ou digite seus próprios termos.</li>
+      <li>Toque em <strong>Choose Photo</strong> e depois na imagem desejada.</li>
+      <li>Mova e amplie a imagem dentro do círculo e toque em <strong>Save</strong>.</li>
+    </ol>
+
+    <h2>Dúvidas</h2>
+    <dl>
+      <dt>O app diz que não tem acesso aos meus contatos.</dt>
+      <dd>Abra o app Ajustes, encontre o Contact Photos e permita o acesso aos Contatos.</dd>
+      <dt>Aparece "Could not get that picture".</dt>
+      <dd>Alguns sites bloqueiam downloads. Toque no botão de recorte na parte de baixo da tela e recorte a imagem diretamente da tela.</dd>
+      <dt>A foto salva ficou borrada.</dt>
+      <dd>Toque primeiro na imagem nos resultados para abrir a versão maior e use Choose Photo nessa imagem maior.</dd>
+      <dt>Não consigo salvar a foto de alguns contatos.</dt>
+      <dd>Contatos de contas somente leitura, como alguns diretórios corporativos, não podem ser alterados por nenhum app.</dd>
+      <dt>A foto não aparece nos meus outros aparelhos.</dt>
+      <dd>As fotos sincronizam pela conta que guarda o contato, como iCloud, Google ou Exchange. Verifique se a sincronização de Contatos está ativa nessa conta em cada aparelho.</dd>
+      <dt>Como removo uma foto?</dt>
+      <dd>Deslize o contato para a esquerda na lista, ou abra o contato e use o menu More.</dd>
+    </dl>
+
+    <h2>Contato</h2>
+    <p class="contact"><a href="mailto:contato@baltha.com.br?subject=Contact%20Photos">contato@baltha.com.br</a></p>
+    <p>Se algo não estiver funcionando, informe o modelo do aparelho e a versão do iOS.</p>
+  </section>
+
+  <footer>Contact Photos · <a href="privacy.html">Privacy Policy / Política de Privacidade</a></footer>
+</main>
+</body>
+</html>
