@@ -9,7 +9,7 @@
   var SITE_CURTO = SITE.replace(/^https?:\/\//, "").replace(/\/$/, "");
   var porId = {};
   (G.capitulos || []).forEach(function (c) { porId[c.id] = c; });
-  var MARCA = '<span aria-hidden="true">g<span class="gemeo">ê</span>m<span class="gemeo">e</span>os</span><span class="oculto-leitor">gêmeos</span>';
+  var LOGO = '<img src="assets/logo-gemeos.svg" width="2924" height="896" alt="gêmeos">';
   var CREDITOS = (G.projeto && G.projeto.creditosCurtos) || "";
 
   var tela = document.getElementById("tela");
@@ -61,20 +61,18 @@
   var ROTEIRO = [
     { tela: "espera", rotulo: "Tela de entrada com o QR code" },
     abrir("aquecimento", "o aquecimento"), resultado("aquecimento", "do aquecimento"),
-    abrir("cego1", "o teste cego 1"), resultado("cego1", "do teste cego 1", false),
-    abrir("cego2", "o teste cego 2"), resultado("cego2", "do teste cego 2", false),
+    abrir("cego1", "o teste cego"), resultado("cego1", "do teste cego", false),
     pesquisa("largada"), abrir("q1", "a pergunta-relâmpago 1"), resultado("q1", "da pergunta-relâmpago 1"),
-    pesquisa("marca"), abrir("q2", "a pergunta-relâmpago 2"), resultado("q2", "da pergunta-relâmpago 2"),
-    pesquisa("busca"), abrir("q3", "a pergunta-relâmpago 3"), resultado("q3", "da pergunta-relâmpago 3"),
+    pesquisa("marca"),
+    pesquisa("busca"),
     pesquisa("infraestrutura"),
-    pesquisa("talentos"), abrir("q4", "a pergunta-relâmpago 4"), resultado("q4", "da pergunta-relâmpago 4"),
-    abrir("q5", "a pergunta-relâmpago 5"), resultado("q5", "da pergunta-relâmpago 5"),
-    { tela: "placar", rotulo: "Placar parcial" },
+    pesquisa("talentos"), abrir("q4", "a pergunta-relâmpago 2"), resultado("q4", "da pergunta-relâmpago 2"),
     pesquisa("base"),
-    pesquisa("dilema"),
-    abrir("decisao", "a decisão"), resultado("decisao", "da decisão"),
-    { tela: "resultado", pergunta: "cego1", revelar: true, rotulo: "Revelar os autores do teste cego 1" },
-    { tela: "resultado", pergunta: "cego2", revelar: true, rotulo: "Revelar os autores do teste cego 2" },
+    pesquisa("evidencias"),
+    { tela: "caso", capitulo: "dilema", rotulo: "Pesquisa: qual é o dilema do Google? (fim da apresentação, 10 min)" },
+    { tela: "aberta", pergunta: "decisao", rotulo: "Abrir a decisão: 5 minutos para os grupos responderem" },
+    { tela: "resultado", pergunta: "decisao", rotulo: "Resultado da decisão: início da discussão conduzida" },
+    { tela: "resultado", pergunta: "cego1", revelar: true, rotulo: "Revelar os autores do teste cego" },
     { tela: "podio", rotulo: "Pódio" },
     { tela: "caso", capitulo: "recomendacao", liberar: true, rotulo: "Liberar a recomendação do Grupo 7 e mostrar no telão" },
   ];
@@ -244,7 +242,7 @@
 
   /* ---------------- telas do telão ---------------- */
   function topoTela(titulo, comTempo) {
-    return '<div class="tela-topo"><span class="marca">' + MARCA + '</span><span class="tela-titulo">' + esc(titulo) + "</span>" +
+    return '<div class="tela-topo"><span class="logo-tela">' + LOGO + '</span><span class="tela-titulo">' + esc(titulo) + "</span>" +
       (comTempo ? '<span class="tela-tempo" data-tempo></span>' : "") + '</div><div class="fio-duplo" aria-hidden="true"></div>';
   }
 
@@ -255,7 +253,7 @@
   function telaEspera() {
     var sala = painel ? painel.sala : "";
     var recentes = (estado && estado.recentes) || [];
-    return '<div class="tela-espera"><div class="espera-texto"><h1 class="marca">' + MARCA + '</h1><div class="fio-duplo" aria-hidden="true"></div><dl>' +
+    return '<div class="tela-espera"><div class="espera-texto"><h1 class="logo-espera">' + LOGO + "</h1><dl>" +
       "<dt>Entre no jogo pelo celular</dt><dd>" + esc(SITE_CURTO) + "</dd>" +
       (sala ? "<dt>Código da sala</dt><dd>" + esc(sala) + "</dd>" : "") +
       "<dt>Participantes</dt><dd>" + fmt(estado.jogadores) + "</dd></dl>" +
@@ -531,7 +529,7 @@
   });
   document.getElementById("esconder").addEventListener("click", alternarControles);
   tela.addEventListener("click", function (ev) {
-    if (ev.target.closest(".marca")) alternarControles();
+    if (ev.target.closest(".logo-tela, .logo-espera")) alternarControles();
   });
 
   /* Teclado e passador de slides: setas e Page Up/Down avançam e voltam */

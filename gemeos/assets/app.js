@@ -17,9 +17,9 @@
   var LUPA = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>' +
     '<path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
-  /* Marca: "gêmeos" em minúsculas, com os dois "e" (os gêmeos da palavra) em destaque */
-  var MARCA_LETRAS = 'g<span class="gemeo">ê</span>m<span class="gemeo">e</span>os';
-  var MARCA = '<span aria-hidden="true">' + MARCA_LETRAS + '</span><span class="oculto-leitor">gêmeos</span>';
+  /* Logotipo do gêmeos (criado com o Gemini) */
+  var LOGO = '<img src="assets/logo-gemeos.svg" width="2924" height="896" alt="';
+  var ICONE = '<img src="assets/icone.svg" width="64" height="64" alt="">';
   var P = G.projeto;
 
   var PARADAS = ["que", "por", "para", "com", "dos", "das", "uma", "uns", "nos", "nas", "sao", "como", "qual", "quem",
@@ -177,7 +177,7 @@
       return '<a href="' + href + '"' + (aba === chave ? ' aria-current="page"' : "") + (extra || "") + ">" + nome + "</a>";
     }
     return '<header class="topo">' +
-      '<a class="marca marca-topo" href="#/" aria-label="gêmeos, página inicial">' + MARCA_LETRAS + "</a>" +
+      '<a class="logo-topo" href="#/">' + LOGO + 'gêmeos, página inicial"></a>' +
       caixaBusca(valor, "busca-topo", "topo") +
       '<div class="conta" data-conta></div></header>' +
       '<nav class="abas-busca" aria-label="Seções do buscador">' +
@@ -197,6 +197,23 @@
     }).join("") + "</ol>";
   }
 
+  function iaHtml() {
+    return '<dl class="ficha ficha-ia">' + P.ia.map(function (l) {
+      return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1].charAt(0).toUpperCase() + l[1].slice(1)) + ".</dd></div>";
+    }).join("") + "</dl>";
+  }
+
+  function indicadoresHtml(c) {
+    return '<ol class="indicadores">' + c.indicadores.map(function (x) {
+      var fontes = x.fontes.map(function (k) {
+        var f = G.fontes[k];
+        return '<a href="' + esc(f.url) + '" target="_blank" rel="noopener">' + esc(f.nome) + "</a>";
+      });
+      return '<li><p class="indicador-valor">' + esc(x.valor) + '</p><p class="indicador-texto">' + esc(x.texto) + "</p>" +
+        '<p class="indicador-fonte">Fonte: ' + juntar(fontes) + "</p></li>";
+    }).join("") + "</ol>";
+  }
+
   function fichaHtml() {
     return '<dl class="ficha">' + P.ficha.map(function (l) {
       return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>";
@@ -207,8 +224,9 @@
     return '<section class="projeto" id="projeto" aria-labelledby="titulo-projeto"><div class="projeto-grade">' +
       '<div class="projeto-texto"><h2 id="titulo-projeto">O projeto</h2>' +
       P.narrativa.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
-      '<h3>Pauta da apresentação</h3><p class="projeto-apoio">25 minutos, em 2 de dezembro de 2026.</p>' + pautaHtml() + "</div>" +
-      '<aside class="projeto-lado" aria-label="Ficha e aviso"><h3>Ficha</h3>' + fichaHtml() +
+      '<h3>Pauta da apresentação</h3><p class="projeto-apoio">' + esc(P.pautaResumo) + "</p>" + pautaHtml() + "</div>" +
+      '<aside class="projeto-lado" aria-label="Ficha, uso de IA e aviso"><h3>Ficha</h3>' + fichaHtml() +
+      "<h3>Uso de IA</h3>" + iaHtml() +
       "<h3>Aviso</h3><p>" + esc(P.avisoCurto) + ' <a href="#/sobre?secao=aviso">Ler o aviso completo</a></p></aside>' +
       "</div></section>";
   }
@@ -232,7 +250,7 @@
 
   function resultadoInterno(c) {
     return '<li class="resultado">' +
-      '<div class="resultado-site"><span class="resultado-icone resultado-icone-casa" aria-hidden="true"><span class="marca-mini"></span></span>' +
+      '<div class="resultado-site"><span class="resultado-icone resultado-icone-casa" aria-hidden="true">' + ICONE + "</span>" +
       '<span class="resultado-origem"><span class="resultado-nome">gêmeos</span><span class="resultado-url">gemeos › caso › ' + esc(c.id) + "</span></span></div>" +
       '<h3><a href="' + linkCap(c.id) + '">' + esc(c.titulo) + "</a></h3>" +
       '<p class="resultado-trecho">' + esc(c.trecho) + "</p></li>";
@@ -276,7 +294,7 @@
       '<header class="inicio-topo"><a class="link-topo" href="#/sobre">O projeto</a><a class="link-topo" href="#/caso/fontes">Fontes</a>' +
       '<div class="conta" data-conta></div></header>' +
       '<main id="conteudo"><div class="inicio-centro">' +
-      '<h1 class="marca marca-grande">' + MARCA + '</h1><div class="fio-duplo" aria-hidden="true"></div>' +
+      '<h1 class="logo-grande">' + LOGO + 'gêmeos"></h1>' +
       caixaBusca("", "busca-inicio", "inicio") +
       '<div class="inicio-botoes"><button class="botao-busca" type="submit" form="busca-inicio-form">Pesquisar no caso</button>' +
       '<button class="botao-busca" type="button" data-surpresa>Me surpreenda</button></div>' +
@@ -317,11 +335,15 @@
     if (id === "fontes") { paginaFontes(); return; }
     ultimaBusca = linkCap(id);
     document.title = c.consulta + ": Gêmeos";
-    var html = cabecalho(c.consulta, "tudo") + '<main class="serp' + (id === "dilema" ? " serp-larga" : "") + '" id="conteudo">';
+    var html = cabecalho(c.consulta, "tudo") + '<main class="serp' + (id === "dilema" || c.indicadores ? " serp-larga" : "") + '" id="conteudo">';
     if (c.bloqueado) {
       html += '<section class="resumo"><p class="resumo-rotulo"><span class="marca-mini" aria-hidden="true"></span>Resposta do Grupo 7</p>' +
         '<h1 class="resumo-titulo">' + esc(c.titulo) + "</h1>" +
         '<div class="recomendacao" data-recomendacao><p class="status-apoio">Carregando a recomendação…</p></div></section>';
+    } else if (c.indicadores) {
+      html += '<p class="serp-contagem">' + c.indicadores.length + " indicadores, com a fonte de cada número</p>" +
+        resumoHtml(c, 1, false) +
+        '<h2 class="serp-secao">Os números do problema</h2>' + indicadoresHtml(c);
     } else if (id === "dilema") {
       html += resumoHtml(c, 1, false) +
         '<p class="papel">' + esc(c.papel) + "</p>" +
@@ -370,8 +392,9 @@
     app.innerHTML = cabecalho("", null) + '<main class="serp" id="conteudo"><article class="sobre">' +
       "<h1>O projeto</h1>" +
       P.narrativa.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
-      '<h2 id="sobre-pauta">Pauta da apresentação</h2><p>25 minutos, em 2 de dezembro de 2026.</p>' + pautaHtml() +
+      '<h2 id="sobre-pauta">Pauta da apresentação</h2><p>' + esc(P.pautaResumo) + "</p>" + pautaHtml() +
       '<h2 id="sobre-ficha">Ficha</h2>' + fichaHtml() +
+      '<h2 id="sobre-ia">Uso de IA</h2><p>Ferramentas de inteligência artificial usadas no trabalho e a finalidade de cada uma:</p>' + iaHtml() +
       '<h2 id="sobre-aviso">Aviso</h2>' + P.aviso.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
       "<h2>Como funciona</h2>" +
       "<p>Cada pesquisa abre um tema do caso, com um resumo e os resultados das fontes. Durante a apresentação, a turma participa pelo celular: um teste cego entre assistentes de IA, perguntas-relâmpago com placar e a votação da decisão final.</p>" +

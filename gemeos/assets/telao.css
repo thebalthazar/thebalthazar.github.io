@@ -16,8 +16,8 @@ body.telao.modo-controle { overflow: auto; font-size: 1rem; }
 }
 .acesso[hidden] { display: none; }
 .acesso-corpo { width: min(30rem, 100%); }
-.acesso-marca { margin: 0; font-size: 2.6rem; }
-.acesso .fio-duplo { width: 3.5rem; margin: 0.8rem 0 1.8rem; }
+.acesso-logo { margin: 0 0 1.8rem; line-height: 0; }
+.acesso-logo img { width: 12rem; height: auto; }
 .acesso h1 { margin: 0 0 0.6rem; font-size: 1.75rem; line-height: 1.2; }
 .acesso-texto { margin: 0 0 1.6rem; color: var(--tinta-3); }
 .acesso-ajuda { margin: 1.4rem 0 0; color: var(--tinta-2); font-size: 0.9rem; }
@@ -38,7 +38,7 @@ body.telao.modo-controle { overflow: auto; font-size: 1rem; }
 .modo-controle .tela, .modo-controle .tela-caso { display: none !important; }
 
 .tela-topo { display: flex; align-items: baseline; gap: 2vw; }
-.tela-topo .marca { font-size: 2.2rem; }
+.logo-tela img { display: block; width: auto; height: 2.6rem; }
 .tela-topo .tela-titulo { color: var(--tinta-2); font-size: 1.5rem; }
 .tela-topo .tela-tempo {
   margin-left: auto;
@@ -87,8 +87,8 @@ body.telao.modo-controle { overflow: auto; font-size: 1rem; }
 .tela-notas span { color: var(--tinta-2); }
 
 .tela-espera { display: grid; grid-template-columns: 1.3fr 1fr; gap: 4vw; align-items: center; height: 100%; }
-.tela-espera .marca { font-size: clamp(4.5rem, 11vw, 10.5rem); }
-.tela-espera .fio-duplo { width: 9rem; margin: 2.2vh 0 3.6vh; }
+.logo-espera { margin: 0 0 4.5vh; line-height: 0; }
+.logo-espera img { display: block; width: min(36vw, 40rem); height: auto; }
 .tela-espera dl { margin: 0; }
 .tela-espera dt { color: var(--tinta-2); font-size: 1.4rem; }
 .tela-espera dd { margin: 0 0 2.2vh; font-family: var(--serif); font-size: clamp(1.9rem, 3.4vw, 3.2rem); line-height: 1.1; }
@@ -167,7 +167,7 @@ body.telao.modo-controle { overflow: auto; font-size: 1rem; }
   border-bottom: 1px solid var(--fio);
   color: var(--tinta-2);
 }
-.modo-controle .controle-topo .marca { color: var(--tinta); font-size: 1.6rem; }
+.modo-controle .logo-controle { display: block; width: auto; height: 1.9rem; }
 .modo-controle .roteiro { flex-direction: column; align-items: stretch; gap: 1.1rem; }
 .modo-controle .roteiro-info { display: block; }
 .modo-controle .roteiro-agora { margin: 0.15rem 0 0.35rem; font-size: 1.45rem; line-height: 1.25; }

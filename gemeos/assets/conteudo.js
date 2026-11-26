@@ -464,6 +464,26 @@ window.GEMEOS = {
       relacionadas: ["dilema", "talentos"],
     },
     {
+      id: "evidencias",
+      consulta: "o que dizem os números?",
+      titulo: "A vantagem do Google na disputa por talentos encolheu",
+      trecho: "A DeepMind contrata 2 pesquisadores para cada 1 que sai, contra 12 para 1 em 2023. Nenhum dos oito autores do Transformer segue no Google.",
+      palavras: ["numeros", "indicadores", "evidencias", "dados", "turnover", "rotatividade", "retencao", "saida", "talentos", "metricas"],
+      resposta:
+        "Os números de pessoas mostram o problema. A DeepMind ainda contrata mais pesquisadores do que perde, mas a vantagem caiu de 12 para 2 contratações por saída, bem abaixo dos rivais. O Google paga caro para recuperar quem saiu, perde líderes históricos e, ao mesmo tempo, cobra mais ritmo da base com cortes e desligamentos voluntários.",
+      indicadores: [
+        { valor: "0 de 8", texto: "autores do Transformer continuam no Google. O último, Noam Shazeer, saiu em junho de 2026.", fontes: ["noqta", "fastcompany"] },
+        { valor: "2 para 1", texto: "contratações por saída de pesquisadores na DeepMind, contra 12 para 1 em 2023. Na Anthropic, a relação era de 22 para 1 em 2025.", fontes: ["zeki"] },
+        { valor: "25%", texto: "de quem deixou a DeepMind no último ano foi para a Anthropic. Outros 21% foram para a Meta e 14% para a OpenAI.", fontes: ["zeki"] },
+        { valor: "US$ 2,7 bilhões", texto: "pagos em 2024 para trazer Noam Shazeer de volta. Ele ficou menos de dois anos.", fontes: ["fastcompany"] },
+        { valor: "US$ 75 milhões", texto: "por ano nas maiores ofertas da Meta (até US$ 300 milhões em quatro anos), contra até US$ 20 milhões por ano nos pacotes da DeepMind.", fontes: ["meta300", "reuterspagamento"] },
+        { valor: "27 anos", texto: "de casa tinha Jeff Dean quando saiu, em agosto de 2026. No mesmo mês, Demis Hassabis deixou o comando da DeepMind.", fontes: ["dean", "hassabis"] },
+        { valor: "7 países", texto: "já receberam o programa de desligamento voluntário, desde 2025. Em 2023, foram 12 mil demissões, cerca de 6% do quadro.", fontes: ["pdv2026", "demissoes2023"] },
+        { valor: "204.757", texto: "funcionários no fim de setembro de 2026, 10 mil a mais do que em março. O quadro cresce enquanto a elite de pesquisa sai.", fontes: ["quadro"] },
+      ],
+      relacionadas: ["talentos", "base", "dilema"],
+    },
+    {
       id: "dilema",
       consulta: "qual é o dilema do Google?",
       titulo: "Que estratégia de pessoas transforma o Google em empresa de IA?",
@@ -515,7 +535,7 @@ window.GEMEOS = {
         "Como redesenhar avaliação e recompensa para premiar o impacto da IA sem transformar a avaliação em instrumento de corte?",
         "Que indicadores de People Analytics a diretoria deve acompanhar nos próximos 12 meses?",
       ],
-      relacionadas: ["recomendacao", "talentos", "base"],
+      relacionadas: ["evidencias", "recomendacao", "talentos"],
     },
     {
       id: "recomendacao",
@@ -536,7 +556,7 @@ window.GEMEOS = {
     },
   ],
 
-  sugestoes: ["largada", "marca", "busca", "infraestrutura", "talentos", "base", "dilema"],
+  sugestoes: ["largada", "marca", "busca", "infraestrutura", "talentos", "base", "evidencias", "dilema"],
 
   grupo: "Grupo 7: Carlos Balthazar Summ, Leonardo Danesi, Thiago Fachin e Vinicius Assensio",
   disciplina: "Gestão Estratégica de Pessoas (MBA10399GEP, turma 2026/34), MBA Executivo, Insper. Prof. Aloisio B. Buoro",
@@ -547,12 +567,19 @@ window.GEMEOS = {
       "O formato é uma provocação. O buscador, produto que fez do Google o que ele é, vira a ferramenta para contar a história do próprio Google na corrida da IA. Cada pesquisa abre um tema, com um resumo e os resultados das fontes, e a turma participa pelo celular.",
       "A pergunta final é de gestão de pessoas: que estratégia transforma o Google em empresa de IA sem perder quem faz a IA?",
     ],
+    pautaResumo: "25 minutos em 2 de dezembro de 2026: 10 de apresentação, 5 para os grupos responderem ao dilema e 10 de discussão conduzida pelo Grupo 7.",
     pauta: [
-      { tempo: "0 a 3 min", titulo: "Abertura", texto: "cadastro pelo QR code e voto de aquecimento." },
-      { tempo: "3 a 7 min", titulo: "Teste cego", texto: "a mesma pergunta respondida por Gemini, ChatGPT e Claude, sem identificação." },
-      { tempo: "7 a 15 min", titulo: "O caso em seis pesquisas", texto: "da invenção do Transformer à saída dos cientistas, com perguntas-relâmpago." },
-      { tempo: "15 a 21 min", titulo: "A decisão", texto: "a turma escolhe uma estratégia, justifica e debate." },
-      { tempo: "21 a 25 min", titulo: "Fechamento", texto: "autores do teste cego, pódio e recomendação do Grupo 7." },
+      { tempo: "0 a 1 min", titulo: "Abertura", texto: "QR code, cadastro e voto de aquecimento." },
+      { tempo: "1 a 3 min", titulo: "Teste cego", texto: "uma pergunta respondida por Gemini, ChatGPT e Claude, sem identificação." },
+      { tempo: "3 a 8 min", titulo: "O caso em seis pesquisas", texto: "do Transformer à saída dos cientistas, com duas perguntas-relâmpago." },
+      { tempo: "8 a 10 min", titulo: "Os números e o dilema", texto: "as evidências do problema e a pergunta para a turma." },
+      { tempo: "10 a 15 min", titulo: "Os grupos respondem", texto: "cada participante escolhe uma estratégia e justifica, pelo celular." },
+      { tempo: "15 a 25 min", titulo: "Discussão conduzida", texto: "resultado da votação, alternativas, autores do teste cego, pódio e recomendação do Grupo 7." },
+    ],
+    ia: [
+      ["Claude (Anthropic)", "apoio à pesquisa e à conferência das fontes, rascunhos dos textos, construção do site, do jogo e da versão escrita"],
+      ["Gemini (Google)", "criação do logotipo"],
+      ["Gemini, ChatGPT e Claude", "respostas do teste cego, usadas como material da dinâmica em sala"],
     ],
     ficha: [
       ["Disciplina", "Gestão Estratégica de Pessoas (MBA10399GEP)"],
@@ -568,11 +595,11 @@ window.GEMEOS = {
     avisoCurto: "Estudo acadêmico e analítico, feito a partir de fontes públicas. Sem vínculo com as empresas citadas e sem caráter de recomendação.",
     aviso: [
       "Este site é um trabalho acadêmico do Grupo 7 para a disciplina Gestão Estratégica de Pessoas do MBA Executivo do Insper. É um estudo analítico, com fins exclusivamente educacionais, feito a partir das fontes públicas citadas em cada resultado.",
-      "Não tem fins comerciais nem vínculo com o Google, a Alphabet ou qualquer outra empresa citada, e não foi revisado nem aprovado por elas. As marcas pertencem aos seus donos e aparecem apenas para identificar as empresas analisadas. O nome gêmeos e o formato de buscador são recursos didáticos.",
+      "Não tem fins comerciais nem vínculo com o Google, a Alphabet ou qualquer outra empresa citada, e não foi revisado nem aprovado por elas. As marcas pertencem aos seus donos e aparecem apenas para identificar as empresas analisadas. O nome gêmeos, o logotipo e o formato de buscador fazem referência ao Google como recurso didático, sem vínculo com a empresa nem com as suas marcas.",
       "Nada aqui é recomendação de investimento, de compra ou de venda de ações, nem parecer jurídico, contábil ou de qualquer outra natureza profissional. A recomendação do Grupo 7 é um exercício de gestão de pessoas, feito para a discussão em sala de aula.",
       "As interpretações são do grupo e não representam a posição do Insper nem dos professores. Os números refletem as fontes na data de cada publicação e podem ter mudado depois.",
     ],
   },
   metodo:
-    "Caso de ensino elaborado pelo Grupo 7 a partir de fontes públicas, com apoio de IA generativa (Claude, da Anthropic) na pesquisa e na redação. Os números foram conferidos nas fontes listadas. As respostas do teste cego foram obtidas pelo grupo nos aplicativos Gemini, ChatGPT e Claude, com as mesmas perguntas e no mesmo dia.",
+    "Caso de ensino elaborado pelo Grupo 7 a partir de fontes públicas, citadas em cada resultado. Os números foram conferidos nas fontes listadas. As respostas do teste cego foram obtidas pelo grupo nos aplicativos Gemini, ChatGPT e Claude, com a mesma pergunta e no mesmo dia. O uso de inteligência artificial em cada etapa está descrito na seção Uso de IA.",
 };
