@@ -93,6 +93,7 @@ body.telao.modo-controle { overflow: auto; font-size: 1rem; }
 .tela-espera dt { color: var(--tinta-2); font-size: 1.4rem; }
 .tela-espera dd { margin: 0 0 2.2vh; font-family: var(--serif); font-size: clamp(1.9rem, 3.4vw, 3.2rem); line-height: 1.1; }
 .tela-espera .qr svg { display: block; width: min(36vw, 60vh); height: auto; margin-left: auto; }
+.espera-creditos { max-width: 44rem; margin: 2.4vh 0 0; color: var(--tinta-2); font-size: clamp(0.95rem, 1.05vw, 1.2rem); line-height: 1.45; }
 .recentes { margin-top: 1vh; padding-top: 1.4vh; border-top: 1px solid var(--fio); }
 .recentes p { margin: 0 0 0.8vh; color: var(--tinta-2); font-size: 1.2rem; }
 .recentes ul { display: flex; flex-wrap: wrap; gap: 0.3rem 1.5rem; list-style: none; margin: 0; padding: 0; font-family: var(--serif); font-size: clamp(1.2rem, 1.7vw, 1.7rem); }

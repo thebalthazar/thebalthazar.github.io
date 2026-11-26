@@ -7,4 +7,6 @@ Caso de ensino do Grupo 7 (Gestão Estratégica de Pessoas, MBA Executivo Insper
 - `assets/conteudo.js`: texto dos temas e fontes.
 - `assets/config.js`: endereço da API do jogo (Railway).
 
+Aviso: estudo acadêmico e analítico, feito a partir de fontes públicas, sem fins comerciais, sem vínculo com as empresas citadas e sem caráter de recomendação. O texto completo fica na página O projeto do site.
+
 Fontes tipográficas: Newsreader e Public Sans, licença SIL Open Font License 1.1 (arquivos em `assets/fontes`).

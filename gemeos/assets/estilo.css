@@ -74,7 +74,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
   display: inline-block;
 }
 h1.marca { margin: 0; }
-.marca-grande { font-size: clamp(4rem, 13vw, 6.75rem); }
+.marca .gemeo { color: var(--destaque); }
+.marca-grande { font-size: clamp(4.4rem, 14vw, 7.25rem); letter-spacing: -0.02em; }
 .marca-grande + .fio-duplo { width: 4.5rem; margin: 1rem auto 2.4rem; }
 .marca-topo { font-size: 1.75rem; }
 
@@ -179,15 +180,17 @@ h1.marca { margin: 0; }
 
 /* ---------- Página inicial ---------- */
 .inicio { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+.inicio > main { flex: 1; }
 .inicio-topo { display: flex; justify-content: flex-end; align-items: center; gap: 1.25rem; padding: 0.85rem var(--margem); }
 .link-topo { font-size: 0.9rem; text-decoration: none; }
 .link-topo:hover { text-decoration: underline; }
 .inicio-centro {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: clamp(2.5rem, 15vh, 8.5rem) 1.25rem 3rem;
+  min-height: calc(100vh - 4.2rem);
+  min-height: calc(100dvh - 4.2rem);
+  padding: clamp(2.5rem, 13vh, 7.5rem) 1.25rem 2.5rem;
   text-align: center;
 }
 .inicio .busca { width: min(36.5rem, 100%); }
@@ -196,6 +199,58 @@ h1.marca { margin: 0; }
 .inicio .busca-lista { border-radius: 0 0 1.55rem 1.55rem; }
 .inicio-botoes { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.75rem; }
 .inicio-sub { max-width: 31rem; margin: 2rem auto 0; color: var(--tinta-2); font-size: 0.95rem; line-height: 1.55; }
+.inicio-creditos { max-width: 33rem; margin: 0.9rem auto 0; color: var(--tinta-2); font-size: 0.82rem; line-height: 1.5; }
+.link-projeto {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.5rem;
+  padding: 0.3rem 0;
+  border: 0;
+  background: none;
+  color: var(--link);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.link-projeto::after {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-0.15rem) rotate(45deg);
+}
+.link-projeto:hover { text-decoration: underline; }
+
+/* ---------- O projeto: narrativa, pauta, ficha e aviso ---------- */
+.projeto { padding: 3.6rem var(--margem) 4.6rem; border-top: 1px solid var(--fio); }
+.projeto-grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 3.5rem;
+  max-width: 64rem;
+  margin: 0 auto;
+}
+.projeto h2 { margin: 0 0 1.1rem; font-family: var(--serif); font-size: 2.1rem; font-weight: 500; line-height: 1.15; }
+.projeto h3 { margin: 2.1rem 0 0.7rem; font-size: 1.05rem; }
+.projeto-lado h3:first-child { margin-top: 0.55rem; }
+.projeto-texto p { margin: 0 0 0.9rem; color: var(--tinta-3); font-size: 1.05rem; line-height: 1.65; }
+.projeto-texto .projeto-apoio { margin: -0.3rem 0 0.8rem; color: var(--tinta-2); font-size: 0.9rem; }
+.projeto-lado { padding-left: 2.2rem; border-left: 1px solid var(--fio); }
+.projeto-lado p { margin: 0; color: var(--tinta-3); font-size: 0.95rem; line-height: 1.6; }
+.projeto-lado a { color: var(--link); }
+
+.pauta { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--tinta); }
+.pauta li { display: grid; grid-template-columns: 6.4rem 1fr; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--fio); }
+.pauta-tempo { padding-top: 0.08rem; color: var(--tinta-2); font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+.pauta-texto { line-height: 1.5; }
+
+.ficha { margin: 0; border-top: 1px solid var(--tinta); }
+.ficha div { padding: 0.55rem 0; border-bottom: 1px solid var(--fio); }
+.ficha dt { color: var(--tinta-2); font-size: 0.8rem; }
+.ficha dd { margin: 0.1rem 0 0; font-size: 0.95rem; }
+.sobre .pauta, .sobre .ficha { max-width: 41rem; margin-bottom: 0.6rem; }
 
 /* ---------- Topo das páginas de resultado ---------- */
 .topo {
@@ -367,7 +422,7 @@ h1.marca { margin: 0; }
 /* ---------- Fontes e sobre ---------- */
 .metodo { margin-top: 2.2rem; padding-top: 1rem; border-top: 1px solid var(--tinta); color: var(--tinta-2); font-size: 0.9rem; }
 .sobre h1 { margin: 0.4rem 0 1rem; font-size: 1.75rem; }
-.sobre h2 { margin: 2rem 0 0.5rem; font-size: 1.15rem; }
+.sobre h2 { margin: 2rem 0 0.5rem; font-size: 1.15rem; scroll-margin-top: 1.5rem; }
 .sobre p { margin: 0 0 0.8rem; color: var(--tinta-3); }
 .sobre a { color: var(--link); }
 
@@ -580,6 +635,9 @@ dialog::backdrop { background: rgba(21, 34, 56, 0.55); }
   .topo .busca { grid-column: 1 / -1; grid-row: 2; }
   .abas-busca, .serp, .conta-pagina { padding-left: var(--margem); }
   .alternativas { grid-template-columns: 1fr; }
+  .projeto-grade { grid-template-columns: 1fr; gap: 2.4rem; }
+  .projeto-lado { padding-left: 0; border-left: 0; }
+  .pauta li { grid-template-columns: 5.4rem 1fr; }
 }
 @media (max-width: 30rem) {
   .resultado h3 { font-size: 1.15rem; }

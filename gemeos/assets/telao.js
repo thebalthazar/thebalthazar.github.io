@@ -9,6 +9,8 @@
   var SITE_CURTO = SITE.replace(/^https?:\/\//, "").replace(/\/$/, "");
   var porId = {};
   (G.capitulos || []).forEach(function (c) { porId[c.id] = c; });
+  var MARCA = '<span aria-hidden="true">g<span class="gemeo">ê</span>m<span class="gemeo">e</span>os</span><span class="oculto-leitor">gêmeos</span>';
+  var CREDITOS = (G.projeto && G.projeto.creditosCurtos) || "";
 
   var tela = document.getElementById("tela");
   var telaCaso = document.getElementById("tela-caso");
@@ -242,7 +244,7 @@
 
   /* ---------------- telas do telão ---------------- */
   function topoTela(titulo, comTempo) {
-    return '<div class="tela-topo"><span class="marca">Gêmeos</span><span class="tela-titulo">' + esc(titulo) + "</span>" +
+    return '<div class="tela-topo"><span class="marca">' + MARCA + '</span><span class="tela-titulo">' + esc(titulo) + "</span>" +
       (comTempo ? '<span class="tela-tempo" data-tempo></span>' : "") + '</div><div class="fio-duplo" aria-hidden="true"></div>';
   }
 
@@ -253,12 +255,13 @@
   function telaEspera() {
     var sala = painel ? painel.sala : "";
     var recentes = (estado && estado.recentes) || [];
-    return '<div class="tela-espera"><div class="espera-texto"><h1 class="marca">Gêmeos</h1><div class="fio-duplo" aria-hidden="true"></div><dl>' +
+    return '<div class="tela-espera"><div class="espera-texto"><h1 class="marca">' + MARCA + '</h1><div class="fio-duplo" aria-hidden="true"></div><dl>' +
       "<dt>Entre no jogo pelo celular</dt><dd>" + esc(SITE_CURTO) + "</dd>" +
       (sala ? "<dt>Código da sala</dt><dd>" + esc(sala) + "</dd>" : "") +
       "<dt>Participantes</dt><dd>" + fmt(estado.jogadores) + "</dd></dl>" +
       (recentes.length ? '<div class="recentes"><p>Acabaram de entrar</p><ul>' +
         recentes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul></div>" : "") +
+      (CREDITOS ? '<p class="espera-creditos">' + esc(CREDITOS) + "</p>" : "") +
       "</div>" + '<div class="qr">' + qrSvg(linkEntrada()) + "</div></div>";
   }
 

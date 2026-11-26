@@ -17,6 +17,11 @@
   var LUPA = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>' +
     '<path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
+  /* Marca: "gêmeos" em minúsculas, com os dois "e" (os gêmeos da palavra) em destaque */
+  var MARCA_LETRAS = 'g<span class="gemeo">ê</span>m<span class="gemeo">e</span>os';
+  var MARCA = '<span aria-hidden="true">' + MARCA_LETRAS + '</span><span class="oculto-leitor">gêmeos</span>';
+  var P = G.projeto;
+
   var PARADAS = ["que", "por", "para", "com", "dos", "das", "uma", "uns", "nos", "nas", "sao", "como", "qual", "quem",
     "onde", "ele", "ela", "isso", "esse", "essa", "mais", "sobre", "google", "vai", "the", "and", "tem", "ter", "foi", "seu", "sua"];
 
@@ -172,7 +177,7 @@
       return '<a href="' + href + '"' + (aba === chave ? ' aria-current="page"' : "") + (extra || "") + ">" + nome + "</a>";
     }
     return '<header class="topo">' +
-      '<a class="marca marca-topo" href="#/" aria-label="Gêmeos, página inicial">Gêmeos</a>' +
+      '<a class="marca marca-topo" href="#/" aria-label="gêmeos, página inicial">' + MARCA_LETRAS + "</a>" +
       caixaBusca(valor, "busca-topo", "topo") +
       '<div class="conta" data-conta></div></header>' +
       '<nav class="abas-busca" aria-label="Seções do buscador">' +
@@ -181,9 +186,31 @@
   }
 
   function rodape() {
-    return '<footer class="rodape"><p>Caso de ensino do Grupo 7, Gestão Estratégica de Pessoas, MBA Executivo Insper.</p>' +
-      '<nav aria-label="Rodapé"><a href="#/sobre">Sobre o caso</a><a href="#/caso/fontes">Fontes</a>' +
-      '<a href="telao.html">Área do apresentador</a></nav></footer>';
+    return '<footer class="rodape"><p>' + esc(P.rodape) + "</p>" +
+      '<nav aria-label="Rodapé"><a href="#/sobre">O projeto</a><a href="#/sobre?secao=aviso">Aviso</a>' +
+      '<a href="#/caso/fontes">Fontes</a><a href="telao.html">Área do apresentador</a></nav></footer>';
+  }
+
+  function pautaHtml() {
+    return '<ol class="pauta">' + P.pauta.map(function (x) {
+      return '<li><span class="pauta-tempo">' + esc(x.tempo) + '</span><span class="pauta-texto"><b>' + esc(x.titulo) + ":</b> " + esc(x.texto) + "</span></li>";
+    }).join("") + "</ol>";
+  }
+
+  function fichaHtml() {
+    return '<dl class="ficha">' + P.ficha.map(function (l) {
+      return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>";
+    }).join("") + "</dl>";
+  }
+
+  function projetoHtml() {
+    return '<section class="projeto" id="projeto" aria-labelledby="titulo-projeto"><div class="projeto-grade">' +
+      '<div class="projeto-texto"><h2 id="titulo-projeto">O projeto</h2>' +
+      P.narrativa.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
+      '<h3>Pauta da apresentação</h3><p class="projeto-apoio">25 minutos, em 2 de dezembro de 2026.</p>' + pautaHtml() + "</div>" +
+      '<aside class="projeto-lado" aria-label="Ficha e aviso"><h3>Ficha</h3>' + fichaHtml() +
+      "<h3>Aviso</h3><p>" + esc(P.avisoCurto) + ' <a href="#/sobre?secao=aviso">Ler o aviso completo</a></p></aside>' +
+      "</div></section>";
   }
 
   function siteHtml(fonte) {
@@ -206,7 +233,7 @@
   function resultadoInterno(c) {
     return '<li class="resultado">' +
       '<div class="resultado-site"><span class="resultado-icone resultado-icone-casa" aria-hidden="true"><span class="marca-mini"></span></span>' +
-      '<span class="resultado-origem"><span class="resultado-nome">Gêmeos</span><span class="resultado-url">gemeos › caso › ' + esc(c.id) + "</span></span></div>" +
+      '<span class="resultado-origem"><span class="resultado-nome">gêmeos</span><span class="resultado-url">gemeos › caso › ' + esc(c.id) + "</span></span></div>" +
       '<h3><a href="' + linkCap(c.id) + '">' + esc(c.titulo) + "</a></h3>" +
       '<p class="resultado-trecho">' + esc(c.trecho) + "</p></li>";
   }
@@ -246,15 +273,17 @@
   function paginaInicio() {
     document.title = "Gêmeos: um caso sobre o Google e a corrida da IA";
     app.innerHTML = '<div class="inicio">' +
-      '<header class="inicio-topo"><a class="link-topo" href="#/sobre">Sobre o caso</a><a class="link-topo" href="#/caso/fontes">Fontes</a>' +
+      '<header class="inicio-topo"><a class="link-topo" href="#/sobre">O projeto</a><a class="link-topo" href="#/caso/fontes">Fontes</a>' +
       '<div class="conta" data-conta></div></header>' +
-      '<main class="inicio-centro" id="conteudo">' +
-      '<h1 class="marca marca-grande">Gêmeos</h1><div class="fio-duplo" aria-hidden="true"></div>' +
+      '<main id="conteudo"><div class="inicio-centro">' +
+      '<h1 class="marca marca-grande">' + MARCA + '</h1><div class="fio-duplo" aria-hidden="true"></div>' +
       caixaBusca("", "busca-inicio", "inicio") +
       '<div class="inicio-botoes"><button class="botao-busca" type="submit" form="busca-inicio-form">Pesquisar no caso</button>' +
       '<button class="botao-busca" type="button" data-surpresa>Me surpreenda</button></div>' +
       '<p class="inicio-sub">Gemini quer dizer gêmeos. Este é um caso sobre os dois Googles: o da busca e da publicidade, e o da inteligência artificial.</p>' +
-      "</main>" + rodape() + "</div>";
+      '<p class="inicio-creditos">' + esc(P.creditos) + "</p>" +
+      '<button class="link-projeto" type="button" data-ir-projeto>Conheça o projeto e a pauta</button>' +
+      "</div>" + projetoHtml() + "</main>" + rodape() + "</div>";
     animarDica(el("#busca-inicio"));
   }
 
@@ -337,14 +366,16 @@
   }
 
   function paginaSobre() {
-    document.title = "Sobre o caso: Gêmeos";
+    document.title = "O projeto: Gêmeos";
     app.innerHTML = cabecalho("", null) + '<main class="serp" id="conteudo"><article class="sobre">' +
-      "<h1>Sobre o caso</h1>" +
-      "<p>Gêmeos é um caso de ensino sobre o Google, a corrida da inteligência artificial e as pessoas que fazem a IA. Gemini quer dizer gêmeos, e o caso trata dos dois Googles: o da busca e da publicidade, e o da inteligência artificial.</p>" +
-      "<p>" + esc(G.grupo) + ". " + esc(G.disciplina) + ".</p>" +
+      "<h1>O projeto</h1>" +
+      P.narrativa.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
+      '<h2 id="sobre-pauta">Pauta da apresentação</h2><p>25 minutos, em 2 de dezembro de 2026.</p>' + pautaHtml() +
+      '<h2 id="sobre-ficha">Ficha</h2>' + fichaHtml() +
+      '<h2 id="sobre-aviso">Aviso</h2>' + P.aviso.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
       "<h2>Como funciona</h2>" +
       "<p>Cada pesquisa abre um tema do caso, com um resumo e os resultados das fontes. Durante a apresentação, a turma participa pelo celular: um teste cego entre assistentes de IA, perguntas-relâmpago com placar e a votação da decisão final.</p>" +
-      "<h2>Privacidade</h2>" +
+      '<h2 id="sobre-privacidade">Privacidade</h2>' +
       "<p>O jogo pede nome e e-mail do Insper só para montar o placar desta aula. O placar mostra o primeiro nome e a inicial do sobrenome. Neste aparelho, o site guarda apenas o seu nome e o código da sua sessão no jogo. Os dados da turma são apagados depois da apresentação.</p>" +
       "<h2>Método</h2><p>" + esc(G.metodo) + "</p>" +
       '<h2>Área do apresentador</h2><p>O telão e os controles da apresentação ficam na <a href="telao.html">área do apresentador</a>, que pede a chave do Grupo 7.</p>' +
@@ -615,6 +646,7 @@
     fecharSugestoes();
     if (caminho === "/entrar" && J.token) { location.replace("#/jogo"); return; }
     rotaAtual = caminho;
+    var secao = caminho === "/sobre" ? params.get("secao") : "";
     if (caminho.indexOf("/caso/") === 0) paginaCapitulo(decodeURIComponent(caminho.slice(6)));
     else if (caminho === "/busca") paginaResultados(params.get("q") || "");
     else if (caminho === "/entrar") paginaEntrar(params.get("sala") || "");
@@ -624,10 +656,12 @@
     renderConta();
     renderBarra();
     window.scrollTo(0, 0);
+    var destino = secao ? el("#sobre-" + secao) : null;
     if (!primeiraRota && rotaAtual !== "/") {
-      var titulo = el("#conteudo h1");
+      var titulo = destino || el("#conteudo h1");
       if (titulo) { titulo.setAttribute("tabindex", "-1"); titulo.focus({ preventScroll: true }); }
     }
+    if (destino) destino.scrollIntoView();
     primeiraRota = false;
   }
 
@@ -703,6 +737,11 @@
       alvo.closest("[data-limpar]").hidden = true;
       input.focus();
       abrirSugestoes(input);
+      return;
+    }
+    if (alvo.closest("[data-ir-projeto]")) {
+      var secaoProjeto = el("#projeto");
+      if (secaoProjeto) secaoProjeto.scrollIntoView({ behavior: reduzMovimento() ? "auto" : "smooth" });
       return;
     }
     if (alvo.closest("[data-surpresa]")) {

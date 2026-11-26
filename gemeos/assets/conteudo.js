@@ -539,7 +539,40 @@ window.GEMEOS = {
   sugestoes: ["largada", "marca", "busca", "infraestrutura", "talentos", "base", "dilema"],
 
   grupo: "Grupo 7: Carlos Balthazar Summ, Leonardo Danesi, Thiago Fachin e Vinicius Assensio",
-  disciplina: "Gestão Estratégica de Pessoas, MBA Executivo Insper, Prof. Aloisio B. Buoro",
+  disciplina: "Gestão Estratégica de Pessoas (MBA10399GEP, turma 2026/34), MBA Executivo, Insper. Prof. Aloisio B. Buoro",
+
+  projeto: {
+    narrativa: [
+      "O Google criou a tecnologia por trás do ChatGPT, tem parte da infraestrutura que move a inteligência artificial e, ainda assim, vê sair os cientistas que fazem a IA. Gemini quer dizer gêmeos, e este caso trata dos dois Googles que convivem na mesma empresa: o da busca e da publicidade, que paga as contas, e o da inteligência artificial, que decide o futuro.",
+      "O formato é uma provocação. O buscador, produto que fez do Google o que ele é, vira a ferramenta para contar a história do próprio Google na corrida da IA. Cada pesquisa abre um tema, com um resumo e os resultados das fontes, e a turma participa pelo celular.",
+      "A pergunta final é de gestão de pessoas: que estratégia transforma o Google em empresa de IA sem perder quem faz a IA?",
+    ],
+    pauta: [
+      { tempo: "0 a 3 min", titulo: "Abertura", texto: "cadastro pelo QR code e voto de aquecimento." },
+      { tempo: "3 a 7 min", titulo: "Teste cego", texto: "a mesma pergunta respondida por Gemini, ChatGPT e Claude, sem identificação." },
+      { tempo: "7 a 15 min", titulo: "O caso em seis pesquisas", texto: "da invenção do Transformer à saída dos cientistas, com perguntas-relâmpago." },
+      { tempo: "15 a 21 min", titulo: "A decisão", texto: "a turma escolhe uma estratégia, justifica e debate." },
+      { tempo: "21 a 25 min", titulo: "Fechamento", texto: "autores do teste cego, pódio e recomendação do Grupo 7." },
+    ],
+    ficha: [
+      ["Disciplina", "Gestão Estratégica de Pessoas (MBA10399GEP)"],
+      ["Turma", "2026/34"],
+      ["Professor", "Aloisio B. Buoro"],
+      ["Curso", "MBA Executivo, Insper"],
+      ["Grupo 7", "Carlos Balthazar Summ, Leonardo Danesi, Thiago Fachin e Vinicius Assensio"],
+      ["Apresentação", "2 de dezembro de 2026"],
+    ],
+    creditos: "Caso de ensino do Grupo 7 para a disciplina Gestão Estratégica de Pessoas (MBA10399GEP, turma 2026/34), do Prof. Aloisio B. Buoro, no MBA Executivo do Insper. Apresentação em 2 de dezembro de 2026.",
+    creditosCurtos: "Grupo 7, Gestão Estratégica de Pessoas (MBA10399GEP, turma 2026/34), Prof. Aloisio B. Buoro, MBA Executivo, Insper, 2 de dezembro de 2026",
+    rodape: "Caso de ensino do Grupo 7, Gestão Estratégica de Pessoas (MBA10399GEP), MBA Executivo, Insper. Estudo acadêmico, sem vínculo com as empresas citadas.",
+    avisoCurto: "Estudo acadêmico e analítico, feito a partir de fontes públicas. Sem vínculo com as empresas citadas e sem caráter de recomendação.",
+    aviso: [
+      "Este site é um trabalho acadêmico do Grupo 7 para a disciplina Gestão Estratégica de Pessoas do MBA Executivo do Insper. É um estudo analítico, com fins exclusivamente educacionais, feito a partir das fontes públicas citadas em cada resultado.",
+      "Não tem fins comerciais nem vínculo com o Google, a Alphabet ou qualquer outra empresa citada, e não foi revisado nem aprovado por elas. As marcas pertencem aos seus donos e aparecem apenas para identificar as empresas analisadas. O nome gêmeos e o formato de buscador são recursos didáticos.",
+      "Nada aqui é recomendação de investimento, de compra ou de venda de ações, nem parecer jurídico, contábil ou de qualquer outra natureza profissional. A recomendação do Grupo 7 é um exercício de gestão de pessoas, feito para a discussão em sala de aula.",
+      "As interpretações são do grupo e não representam a posição do Insper nem dos professores. Os números refletem as fontes na data de cada publicação e podem ter mudado depois.",
+    ],
+  },
   metodo:
     "Caso de ensino elaborado pelo Grupo 7 a partir de fontes públicas, com apoio de IA generativa (Claude, da Anthropic) na pesquisa e na redação. Os números foram conferidos nas fontes listadas. As respostas do teste cego foram obtidas pelo grupo nos aplicativos Gemini, ChatGPT e Claude, com as mesmas perguntas e no mesmo dia.",
 };
