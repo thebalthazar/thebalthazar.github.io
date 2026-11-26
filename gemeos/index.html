@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gêmeos: um caso sobre o Google e a corrida da IA</title>
+<meta name="description" content="Caso de ensino do Grupo 7 (Gestão Estratégica de Pessoas, MBA Executivo Insper) sobre o Google, a corrida da inteligência artificial e as pessoas que fazem a IA.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="assets/icone.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fontes.css">
+<link rel="stylesheet" href="assets/estilo.css">
+</head>
+<body>
+<div id="app" aria-live="polite"></div>
+<noscript><p style="padding:2rem">Este caso precisa de JavaScript ativado no navegador.</p></noscript>
+
+<section id="painel" class="painel" role="dialog" aria-modal="true" aria-label="Pergunta da apresentação" hidden>
+  <div class="painel-topo">
+    <span class="marca">Gêmeos</span>
+    <button class="botao-texto" type="button" data-dispensar>Voltar ao caso</button>
+  </div>
+  <div id="painel-corpo" class="painel-corpo"></div>
+</section>
+
+<div id="jogo-barra" class="jogo-barra" hidden>
+  <p id="jogo-barra-texto" aria-live="polite"></p>
+  <div id="jogo-barra-acao"></div>
+</div>
+
+<dialog id="dialogo-entrar" aria-labelledby="titulo-entrar">
+  <form id="form-entrar" class="dialogo-corpo" novalidate>
+    <h2 id="titulo-entrar">Entre no jogo</h2>
+    <label class="campo"><span>Nome e sobrenome</span>
+      <input name="nome" autocomplete="name" maxlength="60" required></label>
+    <label class="campo"><span>E-mail do Insper</span>
+      <input name="email" type="email" inputmode="email" autocomplete="email" placeholder="voce@al.insper.edu.br" required></label>
+    <label class="campo"><span>Código da sala</span>
+      <input name="sala" autocomplete="off" autocapitalize="characters" maxlength="8" required>
+      <small>O código aparece no telão.</small></label>
+    <div class="dialogo-acoes">
+      <button class="botao botao-principal" type="submit">Entrar</button>
+      <button class="botao-texto" type="button" data-fechar>Cancelar</button>
+    </div>
+    <p class="mensagem mensagem-erro" role="alert" hidden></p>
+    <p class="consentimento">Usamos seu nome e e-mail só para o placar desta aula. O placar mostra o primeiro nome e a inicial do sobrenome, e os dados são apagados depois da apresentação.</p>
+  </form>
+</dialog>
+
+<script src="assets/config.js"></script>
+<script src="assets/conteudo.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

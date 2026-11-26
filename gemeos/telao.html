@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gêmeos: telão e modo apresentador</title>
+<link rel="icon" href="assets/icone.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fontes.css">
+<link rel="stylesheet" href="assets/estilo.css">
+<link rel="stylesheet" href="assets/telao.css">
+</head>
+<body class="telao">
+<main id="tela" class="tela" aria-live="polite"></main>
+
+<aside id="controle" class="controle" aria-label="Controles do apresentador">
+  <div class="controle-resumo" id="controle-resumo"></div>
+  <div class="controle-linha">
+    <span class="controle-status" id="controle-status">Conectando…</span>
+    <a class="botao-texto" href="index.html" target="_blank" rel="noopener">Abrir o caso</a>
+    <a class="botao-texto" href="#controle" id="link-modo">Controle pelo celular</a>
+    <button class="botao-texto" type="button" id="esconder">Esconder controles (tecla C)</button>
+  </div>
+  <div class="controle-linha">
+    <label class="oculto-leitor" for="seletor">Pergunta</label>
+    <select id="seletor"></select>
+    <button class="botao botao-principal" type="button" data-acao="abrir">Abrir pergunta</button>
+    <button class="botao" type="button" data-acao="resultado">Encerrar e mostrar resultado</button>
+    <button class="botao" type="button" data-acao="revelar">Revelar autores</button>
+    <span class="controle-sep" aria-hidden="true"></span>
+    <button class="botao" type="button" data-acao="placar">Placar</button>
+    <button class="botao" type="button" data-acao="podio">Pódio</button>
+    <button class="botao" type="button" data-acao="espera">Tela de entrada</button>
+  </div>
+  <div class="controle-linha">
+    <button class="botao" type="button" data-acao="recomendacao" id="botao-recomendacao">Liberar recomendação</button>
+    <button class="botao" type="button" data-acao="editar-cego">Editar teste cego</button>
+    <span class="controle-sep" aria-hidden="true"></span>
+    <button class="botao" type="button" data-acao="zerar">Zerar respostas</button>
+    <button class="botao" type="button" data-acao="apagar">Apagar participantes</button>
+    <button class="botao-texto" type="button" data-acao="sair">Trocar chave</button>
+  </div>
+</aside>
+
+<dialog id="dialogo-chave" aria-labelledby="titulo-chave">
+  <form id="form-chave" class="dialogo-corpo">
+    <h2 id="titulo-chave">Modo apresentador</h2>
+    <label class="campo"><span>Chave do apresentador</span>
+      <input name="chave" type="password" autocomplete="off" required>
+      <small>A chave fica nas variáveis do projeto gemeos, no Railway (ADMIN_KEY).</small></label>
+    <div class="dialogo-acoes"><button class="botao botao-principal" type="submit">Entrar</button></div>
+    <p class="mensagem mensagem-erro" role="alert" hidden></p>
+  </form>
+</dialog>
+
+<dialog id="dialogo-confirmar" aria-labelledby="titulo-confirmar">
+  <div class="dialogo-corpo">
+    <h2 id="titulo-confirmar">Confirmar</h2>
+    <p id="texto-confirmar"></p>
+    <div class="dialogo-acoes">
+      <button class="botao botao-principal" type="button" id="confirmar-sim">Confirmar</button>
+      <button class="botao-texto" type="button" id="confirmar-nao">Cancelar</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="dialogo-cego" class="editor-cego" aria-labelledby="titulo-cego">
+  <form id="form-cego" class="dialogo-corpo">
+    <h2 id="titulo-cego">Respostas do teste cego</h2>
+    <div class="abas" role="tablist">
+      <button type="button" role="tab" data-aba="cego1" aria-selected="true">Teste cego 1</button>
+      <button type="button" role="tab" data-aba="cego2" aria-selected="false">Teste cego 2</button>
+    </div>
+    <p class="status-apoio" id="enunciado-cego"></p>
+    <div class="grade" id="campos-cego"></div>
+    <div class="dialogo-acoes">
+      <button class="botao botao-principal" type="submit">Salvar respostas</button>
+      <button class="botao-texto" type="button" data-fechar-cego>Fechar</button>
+    </div>
+    <p class="mensagem" id="msg-cego" role="status"></p>
+  </form>
+</dialog>
+
+<script src="assets/config.js"></script>
+<script src="assets/qrcode.js"></script>
+<script src="assets/telao.js"></script>
+</body>
+</html>
