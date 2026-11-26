@@ -4,54 +4,64 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Gêmeos: telão e modo apresentador</title>
+<title>Gêmeos: área do apresentador</title>
 <link rel="icon" href="assets/icone.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/fontes.css">
 <link rel="stylesheet" href="assets/estilo.css">
 <link rel="stylesheet" href="assets/telao.css">
 </head>
 <body class="telao">
-<main id="tela" class="tela" aria-live="polite"></main>
+<section id="acesso" class="acesso" aria-labelledby="titulo-acesso" hidden>
+  <div class="acesso-corpo">
+    <p class="marca acesso-marca">Gêmeos</p>
+    <div class="fio-duplo" aria-hidden="true"></div>
+    <h1 id="titulo-acesso">Área do apresentador</h1>
+    <p class="acesso-texto">Daqui o Grupo 7 conduz a apresentação: abre as perguntas, mostra os resultados e o placar, passa os temas do caso no telão e libera a recomendação.</p>
+    <form id="form-chave" class="acesso-form">
+      <label class="campo"><span>Chave do apresentador</span>
+        <input name="chave" type="password" autocomplete="off" spellcheck="false" required></label>
+      <button class="botao botao-principal botao-largo" type="submit">Entrar como apresentador</button>
+      <p class="mensagem mensagem-erro" role="alert" hidden></p>
+    </form>
+    <p class="acesso-ajuda">A chave fica com o Grupo 7 e é pedida uma vez em cada aparelho. No computador ligado ao projetor, esta página vira o telão. No celular, abra a mesma página e escolha Controle pelo celular.</p>
+    <p class="acesso-voltar"><a href="index.html">Voltar ao caso</a></p>
+  </div>
+</section>
 
-<aside id="controle" class="controle" aria-label="Controles do apresentador">
-  <div class="controle-resumo" id="controle-resumo"></div>
+<main id="tela" class="tela" aria-live="polite"></main>
+<div id="tela-caso" class="tela-caso" hidden><iframe id="frame-caso" title="Caso exibido no telão"></iframe></div>
+
+<aside id="controle" class="controle" aria-label="Controles do apresentador" hidden>
+  <div class="controle-topo"><span class="marca">Gêmeos</span><span>Controle da apresentação</span></div>
+  <div class="roteiro">
+    <div class="roteiro-info">
+      <p class="roteiro-rotulo">Agora</p>
+      <p class="roteiro-agora" id="roteiro-agora">Conectando…</p>
+      <p class="roteiro-detalhe" id="roteiro-detalhe"></p>
+    </div>
+    <div class="roteiro-botoes">
+      <button class="botao" type="button" data-acao="voltar" title="Voltar (seta para a esquerda)">Voltar</button>
+      <button class="botao botao-principal botao-avancar" type="button" data-acao="avancar" title="Avançar (seta para a direita ou passador de slides)">
+        <span>Avançar</span><small id="roteiro-proximo"></small>
+      </button>
+    </div>
+  </div>
+  <p class="roteiro-aviso" id="roteiro-aviso" role="status" hidden></p>
   <div class="controle-linha">
-    <span class="controle-status" id="controle-status">Conectando…</span>
-    <a class="botao-texto" href="index.html" target="_blank" rel="noopener">Abrir o caso</a>
+    <label class="ir-para"><span>Ir para a etapa</span><select id="seletor-etapa"></select></label>
+    <button class="botao" type="button" data-acao="ir">Ir</button>
+    <span class="controle-sep" aria-hidden="true"></span>
+    <button class="botao-texto" type="button" data-acao="editar-cego">Editar teste cego</button>
+    <button class="botao-texto" type="button" data-acao="recomendacao" id="botao-recomendacao">Liberar recomendação</button>
+    <button class="botao-texto" type="button" data-acao="zerar">Zerar respostas</button>
+    <button class="botao-texto" type="button" data-acao="apagar">Apagar participantes</button>
+    <span class="controle-sep" aria-hidden="true"></span>
+    <a class="botao-texto so-telao" href="index.html" target="_blank" rel="noopener">Abrir o caso</a>
     <a class="botao-texto" href="#controle" id="link-modo">Controle pelo celular</a>
-    <button class="botao-texto" type="button" id="esconder">Esconder controles (tecla C)</button>
-  </div>
-  <div class="controle-linha">
-    <label class="oculto-leitor" for="seletor">Pergunta</label>
-    <select id="seletor"></select>
-    <button class="botao botao-principal" type="button" data-acao="abrir">Abrir pergunta</button>
-    <button class="botao" type="button" data-acao="resultado">Encerrar e mostrar resultado</button>
-    <button class="botao" type="button" data-acao="revelar">Revelar autores</button>
-    <span class="controle-sep" aria-hidden="true"></span>
-    <button class="botao" type="button" data-acao="placar">Placar</button>
-    <button class="botao" type="button" data-acao="podio">Pódio</button>
-    <button class="botao" type="button" data-acao="espera">Tela de entrada</button>
-  </div>
-  <div class="controle-linha">
-    <button class="botao" type="button" data-acao="recomendacao" id="botao-recomendacao">Liberar recomendação</button>
-    <button class="botao" type="button" data-acao="editar-cego">Editar teste cego</button>
-    <span class="controle-sep" aria-hidden="true"></span>
-    <button class="botao" type="button" data-acao="zerar">Zerar respostas</button>
-    <button class="botao" type="button" data-acao="apagar">Apagar participantes</button>
+    <button class="botao-texto so-telao" type="button" id="esconder">Esconder (tecla C)</button>
     <button class="botao-texto" type="button" data-acao="sair">Trocar chave</button>
   </div>
 </aside>
-
-<dialog id="dialogo-chave" aria-labelledby="titulo-chave">
-  <form id="form-chave" class="dialogo-corpo">
-    <h2 id="titulo-chave">Modo apresentador</h2>
-    <label class="campo"><span>Chave do apresentador</span>
-      <input name="chave" type="password" autocomplete="off" required>
-      <small>A chave fica nas variáveis do projeto gemeos, no Railway (ADMIN_KEY).</small></label>
-    <div class="dialogo-acoes"><button class="botao botao-principal" type="submit">Entrar</button></div>
-    <p class="mensagem mensagem-erro" role="alert" hidden></p>
-  </form>
-</dialog>
 
 <dialog id="dialogo-confirmar" aria-labelledby="titulo-confirmar">
   <div class="dialogo-corpo">
@@ -82,6 +92,7 @@
 </dialog>
 
 <script src="assets/config.js"></script>
+<script src="assets/conteudo.js"></script>
 <script src="assets/qrcode.js"></script>
 <script src="assets/telao.js"></script>
 </body>
