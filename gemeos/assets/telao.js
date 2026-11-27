@@ -203,7 +203,7 @@
     }).catch(function (e) {
       chave = "";
       emailAdmin = "";
-      mostrarAcesso(e.status === 401 ? "E-mail ou senha não conferem. Use o e-mail do Insper de um integrante do Grupo 7 e a senha do grupo." : "Sem conexão com o servidor do jogo. Tente de novo em instantes.");
+      mostrarAcesso(e.status === 401 ? "E-mail ou senha não conferem. Use o seu e-mail do Insper e a senha pessoal que chegou por e-mail." : "Sem conexão com o servidor do jogo. Tente de novo em instantes.");
     }).then(function () { botao.disabled = false; });
   });
 
@@ -243,7 +243,7 @@
         chave = "";
         painel = null;
         gravarLocal("gemeos.chave", "");
-        mostrarAcesso("O acesso mudou ou não confere. Entre de novo com o e-mail e a senha do grupo.");
+        mostrarAcesso("O acesso mudou ou não confere. Entre de novo com o seu e-mail e a senha pessoal.");
       }
     }).then(function () { if (chave) timerPainel = setTimeout(cicloPainel, 3000); });
   }
