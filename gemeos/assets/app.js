@@ -191,7 +191,7 @@
   function rodape() {
     return '<footer class="rodape"><p>' + esc(P.rodape) + "</p>" +
       '<nav aria-label="Rodapé"><a href="#/sobre">O projeto</a><a href="#/sobre?secao=aviso">Aviso</a>' +
-      '<a href="#/caso/fontes">Fontes</a><a href="#/caso/regras">Regras do jogo</a><a href="telao.html">Área do apresentador</a></nav></footer>';
+      '<a href="#/caso/fontes">Fontes</a><a href="#/regras">Regras do jogo</a><a href="telao.html">Área do apresentador</a></nav></footer>';
   }
 
   function pautaHtml() {
@@ -352,17 +352,20 @@
     return (c.graficos || []).map(graficoHtml).join("");
   }
 
-  function regrasHtml(c) {
-    var colunas = ["Etapa", "Quando", "Tempo", "Pontos"];
-    return '<p class="serp-contagem">' + c.pontuacao.length + " etapas com pontos e " + c.regras.length + " regras</p>" + resumoHtml(c, 1, false) +
-      '<h2 class="serp-secao">Como pontuar</h2>' +
-      '<table class="tabela-regras"><thead><tr>' + colunas.map(function (t) { return '<th scope="col">' + t + "</th>"; }).join("") + "</tr></thead><tbody>" +
-      c.pontuacao.map(function (r) {
-        return '<tr><th scope="row">' + esc(r.etapa) + '</th><td data-rotulo="Quando">' + esc(r.quando) + '</td><td data-rotulo="Tempo">' + esc(r.tempo) + "</td>" +
-          '<td data-rotulo="Pontos">' + esc(r.pontos) + "</td></tr>";
+  function paginaRegras() {
+    var R = G.regras;
+    document.title = "Como funciona o jogo: Gêmeos";
+    app.innerHTML = cabecalho("", "jogo") + '<main class="conta-pagina conta-regras" id="conteudo">' +
+      "<h1>" + esc(R.titulo) + "</h1>" +
+      '<p class="conta-intro">' + esc(R.resumo) + "</p>" +
+      '<h2>Pontuação</h2><table class="tabela-regras"><thead><tr><th scope="col">Etapa</th><th scope="col">Tempo</th><th scope="col">Pontos</th></tr></thead><tbody>' +
+      R.pontuacao.map(function (r) {
+        return '<tr><th scope="row">' + esc(r.etapa) + '</th><td data-rotulo="Tempo">' + esc(r.tempo) + '</td><td data-rotulo="Pontos">' + esc(r.pontos) + "</td></tr>";
       }).join("") + "</tbody></table>" +
-      '<h2 class="serp-secao">Regras</h2><ul class="lista-regras">' + c.regras.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") + "</ul>" +
-      avisoJogo("As perguntas aparecem no celular quando o apresentador abre cada uma.");
+      '<h2>Regras</h2><ul class="lista-regras">' + R.itens.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>" +
+      (J.token ? '<p><a class="botao" href="#/jogo">Voltar para a sua área no jogo</a></p>'
+        : (API ? '<p><a class="botao botao-principal" href="#/entrar">Entrar no jogo</a></p>' : "")) +
+      "</main>" + rodape();
   }
 
   function oficiaisHtml() {
@@ -429,7 +432,7 @@
     if (id === "fontes") { paginaFontes(); return; }
     ultimaBusca = linkCap(id);
     document.title = c.consulta + ": Gêmeos";
-    var html = cabecalho(c.consulta, "tudo") + '<main class="serp' + (id === "dilema" || c.indicadores || c.pontuacao ? " serp-larga" : "") + '" id="conteudo">';
+    var html = cabecalho(c.consulta, "tudo") + '<main class="serp' + (id === "dilema" || c.indicadores ? " serp-larga" : "") + '" id="conteudo">';
     if (c.bloqueado) {
       html += '<section class="resumo"><p class="resumo-rotulo"><span class="marca-mini" aria-hidden="true"></span>Resposta do Grupo 7</p>' +
         '<h1 class="resumo-titulo">' + esc(c.titulo) + "</h1>" +
@@ -438,8 +441,6 @@
       html += '<p class="serp-contagem">' + c.indicadores.length + " indicadores, com a fonte de cada número</p>" +
         resumoHtml(c, 1, false) +
         '<h2 class="serp-secao">Os números do problema</h2>' + indicadoresHtml(c);
-    } else if (c.pontuacao) {
-      html += regrasHtml(c);
     } else if (id === "dilema") {
       html += resumoHtml(c, 1, false) +
         '<p class="papel">' + esc(c.papel) + "</p>" +
@@ -452,11 +453,11 @@
         }).join("") + "</ol>" +
         '<h2 class="serp-secao">Perguntas para a turma</h2><ol class="perguntas">' +
         c.perguntas.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ol>" +
-        avisoJogo("A votação da decisão abre no fim da apresentação.");
+        avisoJogo("A votação do dilema abre depois do resultado do jogo.");
     } else {
       html += '<p class="serp-contagem">' + c.fatos.length + " resultados de fontes públicas</p>" +
         resumoHtml(c, 1, false) + pessoasHtml(c) + graficosHtml(c) +
-        (c.quiz ? avisoJogo("Este tema cai no jogo rápido, depois das pesquisas.") : "") +
+        (c.quiz ? avisoJogo("Este tema cai no jogo, depois da apresentação.") : "") +
         '<h2 class="oculto-leitor">Resultados</h2><ol class="resultados">' + c.fatos.map(resultadoFato).join("") + "</ol>";
     }
     html += relacionadasHtml(c) + "</main>" + rodape();
@@ -497,9 +498,9 @@
       '<h2 id="sobre-oficiais">Fontes oficiais da companhia</h2><p>Para conferir as informações direto na origem:</p>' + oficiaisHtml() +
       '<h2 id="sobre-aviso">Aviso</h2>' + P.aviso.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
       "<h2>Como funciona</h2>" +
-      "<p>Cada pesquisa abre um tema do caso, com um resumo, números e os resultados das fontes. Durante a apresentação, a turma participa pelo celular: um teste cego entre assistentes de IA, cinco perguntas-relâmpago depois das pesquisas e a votação da decisão final. As regras e a pontuação estão em <a href=\"#/caso/regras\">como funciona o jogo</a>.</p>" +
+      "<p>Cada pesquisa abre um tema do caso, com um resumo, números e os resultados das fontes. Na apresentação, o Grupo 7 mostra o caso pelo próprio buscador. Depois, a turma joga pelo celular: aquecimento, cinco perguntas-relâmpago e um teste cego entre assistentes de IA, em sequência, com o resultado no fim. Em seguida, vem a votação do dilema. As regras e a pontuação estão em <a href=\"#/regras\">como funciona o jogo</a>.</p>" +
       '<h2 id="sobre-privacidade">Privacidade</h2>' +
-      "<p>O jogo pede nome e e-mail de aluno do Insper (terminado em @al.insper.edu.br) só para montar o placar desta aula. O placar mostra o primeiro nome e a inicial do sobrenome. Neste aparelho, o site guarda apenas o seu nome e o código da sua sessão no jogo. Os dados da turma são apagados depois da apresentação.</p>" +
+      "<p>O jogo pede nome e e-mail do Insper, de aluno ou de professor, só para montar o placar desta aula. O placar mostra o primeiro nome e a inicial do sobrenome. Neste aparelho, o site guarda apenas o seu nome e o código da sua sessão no jogo. Os dados da turma são apagados depois da apresentação.</p>" +
       "<h2>Método</h2><p>" + esc(G.metodo) + "</p>" +
       '<h2>Área do apresentador</h2><p>O telão e os controles da apresentação ficam na <a href="telao.html">área do apresentador</a>, que pede a chave do Grupo 7.</p>' +
       "</article></main>" + rodape();
@@ -509,7 +510,7 @@
   function formEntrarHtml(sala) {
     return '<form id="form-entrar" class="conta-form" novalidate>' +
       '<label class="campo"><span>Nome e sobrenome</span><input name="nome" autocomplete="name" maxlength="60" required></label>' +
-      '<label class="campo"><span>E-mail de aluno do Insper</span><input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="voce@al.insper.edu.br" required></label>' +
+      '<label class="campo"><span>E-mail do Insper</span><input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="voce@al.insper.edu.br" required></label>' +
       '<label class="campo"><span>Código da sala</span><input name="sala" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="8" required value="' + esc(String(sala || "").toUpperCase()) + '">' +
       "<small>O código aparece no telão.</small></label>" +
       '<button class="botao botao-principal botao-largo" type="submit">Entrar no jogo</button>' +
@@ -521,7 +522,7 @@
     document.title = "Entrar no jogo: Gêmeos";
     app.innerHTML = cabecalho("", "jogo") + '<main class="conta-pagina" id="conteudo">' +
       "<h1>Entrar no jogo</h1>" +
-      '<p class="conta-intro">Durante a apresentação, as perguntas aparecem aqui na sua tela. Nas perguntas-relâmpago, quem acerta mais rápido ganha mais pontos. <a href="#/caso/regras">Veja as regras e a pontuação</a>.</p>' +
+      '<p class="conta-intro">Depois da apresentação do caso, as perguntas aparecem aqui na sua tela, uma depois da outra. Nas perguntas-relâmpago, quem acerta mais rápido ganha mais pontos. <a href="#/regras">Veja as regras e a pontuação</a>.</p>' +
       (API ? formEntrarHtml(sala) : '<p class="status-apoio">O jogo não está disponível neste endereço.</p>') +
       "</main>" + rodape();
     var f = el("#form-entrar");
@@ -546,7 +547,8 @@
     var p = e.pergunta;
     if (e.tela === "aberta" && p) {
       if (e.minha) {
-        return '<p class="agora-texto">Resposta enviada: ' + esc(p.titulo) + '.</p><p class="status-apoio">O resultado aparece quando o apresentador encerrar a pergunta.</p>';
+        return '<p class="agora-texto">Resposta enviada: ' + esc(p.titulo) + '.</p><p class="status-apoio">' +
+          (p.tipo === "decisao" ? "O resultado aparece quando o apresentador encerrar a votação." : "O resultado sai no fim do jogo, no telão.") + "</p>";
       }
       return '<p class="agora-texto"><b>Pergunta aberta: ' + esc(p.titulo) + '.</b></p><button class="botao botao-principal" type="button" data-voltar-pergunta>Responder agora</button>';
     }
@@ -558,6 +560,10 @@
     }
     if (e.tela === "caso" && e.capitulo && porId[e.capitulo]) {
       return '<p class="agora-texto">No telão: ' + esc(porId[e.capitulo].consulta) + '</p><a class="botao" href="' + linkCap(e.capitulo) + '">Acompanhar no celular</a>';
+    }
+    if (e.tela === "regras") {
+      return '<p class="agora-texto">O jogo vai começar.</p><p class="status-apoio">Deixe esta página aberta: as perguntas aparecem sozinhas, uma depois da outra.</p>' +
+        '<a class="botao" href="#/regras">Ver as regras e a pontuação</a>';
     }
     if (e.tela === "espera") {
       return '<p class="agora-texto">Aguardando o início.</p><p class="status-apoio">Os nomes de quem entra aparecem no telão. Deixe esta página aberta: a primeira pergunta aparece sozinha.</p>';
@@ -575,9 +581,10 @@
       '<section class="conta-agora" aria-live="polite"><h2>Agora</h2><div data-agora>' + agoraHtml() + "</div></section>" +
       '<section class="conta-como"><h2>Como funciona</h2><ol>' +
       "<li>Deixe esta página aberta. Quando o apresentador abre uma pergunta, ela aparece sozinha na sua tela.</li>" +
-      "<li>Nas perguntas-relâmpago, quem acerta mais rápido ganha mais pontos. O voto de aquecimento e o teste cego também pontuam.</li>" +
-      "<li>Na decisão final, escolha uma alternativa e justifique em uma linha. Com justificativa, a decisão vale o dobro.</li>" +
-      '<li>As regras completas e a pontuação estão em <a href="#/caso/regras">como funciona o jogo</a>.</li>' +
+      "<li>O jogo vem depois da apresentação: aquecimento, cinco perguntas-relâmpago e teste cego, em sequência. Nas perguntas-relâmpago, quem acerta mais rápido ganha mais pontos.</li>" +
+      "<li>O resultado sai no fim do jogo, com o pódio no telão.</li>" +
+      "<li>Depois do jogo, a turma vota o dilema: escolha uma alternativa e justifique em uma linha.</li>" +
+      '<li>As regras completas e a pontuação estão em <a href="#/regras">como funciona o jogo</a>.</li>' +
       "</ol></section>" +
       '<p class="conta-sair"><button class="botao-texto" type="button" data-sair>Sair do jogo neste aparelho</button></p>' +
       "</main>" + rodape();
@@ -769,12 +776,14 @@
     var params = new URLSearchParams(partes[1] || "");
     fecharSugestoes();
     if (caminho === "/entrar" && J.token) { location.replace("#/jogo"); return; }
+    if (caminho === "/caso/regras") { location.replace("#/regras"); return; }
     rotaAtual = caminho;
     var secao = caminho === "/sobre" ? params.get("secao") : "";
     if (caminho.indexOf("/caso/") === 0) paginaCapitulo(decodeURIComponent(caminho.slice(6)));
     else if (caminho === "/busca") paginaResultados(params.get("q") || "");
     else if (caminho === "/entrar") paginaEntrar(params.get("sala") || "");
     else if (caminho === "/jogo") paginaJogo();
+    else if (caminho === "/regras") paginaRegras();
     else if (caminho === "/sobre") paginaSobre();
     else { rotaAtual = "/"; paginaInicio(); }
     renderConta();
@@ -889,8 +898,8 @@
     var msg = f.querySelector(".mensagem-erro");
     function avisar(t) { msg.textContent = t; msg.hidden = !t; }
     avisar("");
-    if (!/^[^@\s]+@al\.insper\.edu\.br$/i.test(f.email.value.trim())) {
-      avisar("Use o seu e-mail de aluno do Insper, terminado em @al.insper.edu.br.");
+    if (!/^[^@\s]+@(al\.)?insper\.edu\.br$/i.test(f.email.value.trim())) {
+      avisar("Use o seu e-mail do Insper: de aluno, terminado em @al.insper.edu.br, ou de professor, terminado em @insper.edu.br.");
       f.email.focus();
       return;
     }
@@ -1032,7 +1041,9 @@
       return;
     }
     if (!J.token) {
-      if (e && e.tela === "aberta" && rotaAtual !== "/entrar") {
+      if (e && e.tela === "regras" && rotaAtual !== "/entrar") {
+        mostrarBarra("O jogo vai começar. Entre para jogar.", '<a class="botao botao-principal" href="#/entrar">Entrar no jogo</a>');
+      } else if (e && e.tela === "aberta" && rotaAtual !== "/entrar") {
         mostrarBarra("Há uma pergunta aberta. Entre no jogo para responder.", '<a class="botao botao-principal" href="#/entrar">Entrar no jogo</a>');
       } else {
         esconderBarra();
@@ -1040,6 +1051,7 @@
       return;
     }
     if (rotaAtual === "/jogo") { esconderBarra(); return; }
+    if (e && e.tela === "regras") { mostrarBarra("O jogo vai começar. Deixe esta página aberta.", '<a class="botao" href="#/regras">Regras</a>'); return; }
     if (e && e.tela === "caso" && e.capitulo && porId[e.capitulo] && location.hash !== linkCap(e.capitulo)) {
       mostrarBarra("No telão: " + porId[e.capitulo].consulta, '<a class="botao" href="' + linkCap(e.capitulo) + '">Acompanhar</a>');
       return;
@@ -1085,7 +1097,7 @@
     if (e.minha) {
       var escolhida = p.tipo === "cego" ? "Resposta " + letra(e.minha.escolha) : p.opcoes[e.minha.escolha];
       return html + '<p class="status-grande">Resposta enviada.</p><p class="status-apoio">Você escolheu: ' + esc(escolhida) +
-        ". O resultado aparece quando o apresentador encerrar a pergunta.</p>";
+        (p.tipo === "decisao" ? ". O resultado aparece quando o apresentador encerrar a votação.</p>" : ". O resultado sai no fim do jogo, no telão.</p>");
     }
     if (p.tipo === "cego") {
       if (!p.textos || !p.textos.some(function (t) { return t; })) {
@@ -1156,6 +1168,9 @@
     var html = '<p class="pergunta-titulo"><span>' + (podio ? "Fim do jogo" : "Placar") + "</span></p>" +
       '<h2 class="status-grande">' + (podio ? "Pódio" : "Os 10 primeiros") + "</h2>";
     if (e.eu) html += '<p class="status-apoio">Você está em ' + e.eu.posicao + "º lugar entre " + e.eu.de + ", com " + fmt(e.eu.pontos) + " pontos.</p>";
+    if (e.eu && typeof e.eu.acertos === "number" && e.eu.relampago) {
+      html += '<p class="status-apoio">Perguntas-relâmpago: ' + e.eu.acertos + (e.eu.acertos === 1 ? " acerto" : " acertos") + " de " + e.eu.relampago + ".</p>";
+    }
     if (!lista.length) return html + '<p class="status-apoio">Ainda não há pontos.</p>';
     return html + '<ol class="placar">' + lista.map(function (l) {
       return '<li><span class="placar-pos">' + l.posicao + "º</span><span>" + esc(l.nome) + "</span><b>" + fmt(l.pontos) + "</b></li>";

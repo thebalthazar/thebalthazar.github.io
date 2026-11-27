@@ -602,31 +602,6 @@ window.GEMEOS = {
       relacionadas: ["talentos", "base", "dilema"],
     },
     {
-      id: "regras",
-      consulta: "como funciona o jogo?",
-      titulo: "Regras e pontuação do jogo",
-      rotulo: "Como funciona",
-      trecho: "Cinco perguntas-relâmpago de 20 segundos, depois das pesquisas. Vale acertar e vale ser rápido.",
-      palavras: ["regras", "regra", "pontuação", "pontos", "critérios", "critério", "jogo", "tempo", "rapidez", "placar", "ranking", "pódio", "empate"],
-      resposta:
-        "O jogo vem depois das pesquisas: são cinco perguntas-relâmpago de 20 segundos sobre o que acabou de ser apresentado. Nelas, vale acertar e vale ser rápido. O aquecimento, o teste cego e a decisão também dão pontos, e o pódio sai depois da decisão.",
-      pontuacao: [
-        { etapa: "Aquecimento", quando: "na abertura", tempo: "30 segundos", pontos: "50 pontos por votar" },
-        { etapa: "Teste cego", quando: "na abertura", tempo: "90 segundos", pontos: "100 pontos por votar" },
-        { etapa: "Perguntas-relâmpago (5)", quando: "depois das pesquisas", tempo: "20 segundos cada", pontos: "Certa: 500 pontos, mais até 500 pela rapidez. Errada: 0" },
-        { etapa: "Decisão", quando: "no fim da apresentação", tempo: "5 minutos", pontos: "200 pontos com justificativa de pelo menos 15 caracteres, 100 sem justificativa" },
-      ],
-      regras: [
-        "A rapidez conta só nas perguntas-relâmpago. O bônus cai de forma contínua ao longo dos 20 segundos: quem acerta logo no início leva perto de 1.000 pontos, e quem acerta no último segundo leva 500.",
-        "Nas perguntas-relâmpago, a resposta só vale dentro do tempo. Nas outras etapas, vale enquanto a pergunta estiver aberta.",
-        "Cada pessoa responde uma vez por pergunta, e a resposta não pode ser trocada depois de enviada.",
-        "No aquecimento, no teste cego e na decisão não há resposta certa: os pontos são pela participação.",
-        "Quem tem a mesma pontuação divide a posição no placar.",
-        "Para jogar, use o seu e-mail de aluno do Insper, terminado em @al.insper.edu.br. O placar mostra o primeiro nome e a inicial do sobrenome, e os dados são apagados depois da aula.",
-      ],
-      relacionadas: ["largada", "talentos", "dilema"],
-    },
-    {
       id: "dilema",
       consulta: "qual é o dilema do Google?",
       titulo: "Que estratégia de pessoas transforma o Google em empresa de IA?",
@@ -708,6 +683,31 @@ window.GEMEOS = {
     { nome: "Blog do Google DeepMind", texto: "Pesquisas e anúncios do laboratório de IA do Google.", url: "https://deepmind.google/discover/blog/" },
     { nome: "re:Work, do Google", texto: "Guias públicos de gestão de pessoas do Google, com o Project Oxygen e o Project Aristotle.", url: "https://rework.withgoogle.com/en/subjects/people-analytics" },
   ],
+  regras: {
+    titulo: "Como funciona o jogo",
+    resumo:
+      "O jogo vem depois da apresentação do caso: aquecimento, cinco perguntas-relâmpago e teste cego, em sequência, sem resultado entre uma pergunta e outra. O resultado sai no fim do jogo, e em seguida vem a votação do dilema.",
+    pontuacao: [
+      { etapa: "Aquecimento", tempo: "30 segundos", pontos: "50 pontos por votar" },
+      { etapa: "Perguntas-relâmpago (5)", tempo: "20 segundos cada", pontos: "Certa: 500 pontos, mais até 500 pela rapidez. Errada: 0" },
+      { etapa: "Teste cego", tempo: "90 segundos", pontos: "100 pontos por votar" },
+    ],
+    itens: [
+      "A rapidez conta só nas perguntas-relâmpago. O bônus cai de forma contínua ao longo dos 20 segundos: quem acerta logo no início leva perto de 1.000 pontos, e quem acerta no último segundo leva 500.",
+      "Nas perguntas-relâmpago, a resposta só vale dentro do tempo. No aquecimento e no teste cego, vale enquanto a pergunta estiver aberta.",
+      "Cada pessoa responde uma vez por pergunta, e a resposta não pode ser trocada depois de enviada.",
+      "No aquecimento e no teste cego não há resposta certa: os pontos são pela participação.",
+      "O resultado sai no fim do jogo, com os autores do teste cego e o pódio. Quem tem a mesma pontuação divide a posição.",
+      "A votação do dilema vem depois do resultado e não vale pontos.",
+      "Para jogar, use o seu e-mail do Insper: de aluno, terminado em @al.insper.edu.br, ou de professor, terminado em @insper.edu.br. O placar mostra o primeiro nome e a inicial do sobrenome, e os dados são apagados depois da aula.",
+    ],
+    telao: [
+      "Aquecimento, cinco perguntas-relâmpago e teste cego, em sequência.",
+      "Pergunta-relâmpago: 20 segundos. A certa vale 500 pontos, mais até 500 pela rapidez.",
+      "Aquecimento e teste cego: pontos por participar.",
+      "Uma resposta por pergunta. O resultado sai no fim do jogo.",
+    ],
+  },
 
   grupo: "Grupo 7: Carlos Balthazar Summ, Leonardo Danesi, Thiago Fachin e Vinicius Assensio",
   disciplina: "Gestão Estratégica de Pessoas (MBA10399GEP, turma 2026/34), MBA Executivo, Insper. Prof. Aloisio B. Buoro",
@@ -721,13 +721,12 @@ window.GEMEOS = {
     ],
     pautaResumo: "25 minutos em 2 de dezembro de 2026: 10 de apresentação, 5 para os grupos responderem ao dilema e 10 de discussão conduzida pelo Grupo 7.",
     pauta: [
-      { tempo: "0 a 1 min", titulo: "Abertura", texto: "QR code, cadastro e voto de aquecimento." },
-      { tempo: "1 a 3 min", titulo: "Teste cego", texto: "uma pergunta respondida por Gemini, ChatGPT e Claude, sem identificação." },
-      { tempo: "3 a 7 min", titulo: "O caso em sete pesquisas", texto: "os dois Googles do ponto de vista das pessoas, com números e gráficos." },
-      { tempo: "7 a 9 min", titulo: "Jogo rápido", texto: "cinco perguntas-relâmpago de 20 segundos sobre o que acabou de ser apresentado." },
-      { tempo: "9 a 10 min", titulo: "O dilema", texto: "a pergunta que fecha a apresentação." },
+      { tempo: "0 a 1 min", titulo: "Abertura", texto: "QR code e cadastro, com os nomes de quem entra no telão." },
+      { tempo: "1 a 4 min", titulo: "O caso no buscador", texto: "as sete pesquisas, com números e gráficos, apresentadas no próprio site." },
+      { tempo: "4 a 9 min", titulo: "O jogo", texto: "regras, aquecimento, cinco perguntas-relâmpago e teste cego, em sequência, com comentários rápidos." },
+      { tempo: "9 a 10 min", titulo: "Resultado e dilema", texto: "autores do teste cego, pódio e a pergunta que fecha a apresentação." },
       { tempo: "10 a 15 min", titulo: "Os grupos respondem", texto: "cada participante escolhe uma estratégia e justifica, pelo celular." },
-      { tempo: "15 a 25 min", titulo: "Discussão conduzida", texto: "resultado da votação, autores do teste cego, pódio e recomendação do Grupo 7." },
+      { tempo: "15 a 25 min", titulo: "Discussão conduzida", texto: "resultado da votação e recomendação do Grupo 7." },
     ],
     ia: [
       ["Claude (Anthropic)", "apoio à pesquisa e à conferência das fontes, rascunhos dos textos, construção do site, do jogo e da versão escrita"],

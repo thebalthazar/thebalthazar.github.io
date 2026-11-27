@@ -30,6 +30,7 @@
   var fCego = document.getElementById("form-cego");
 
   var chave = lerLocal("gemeos.chave");
+  var emailAdmin = lerLocal("gemeos.email");
   var painel = null;
   var estado = null;
   var conectado = true;
@@ -59,27 +60,20 @@
   }
 
   var ROTEIRO = [
-    { tela: "espera", rotulo: "Tela de entrada com o QR code" },
-    abrir("aquecimento", "o aquecimento"), resultado("aquecimento", "do aquecimento"),
-    abrir("cego1", "o teste cego"), resultado("cego1", "do teste cego", false),
-    pesquisa("largada"),
-    pesquisa("marca"),
-    pesquisa("busca"),
-    pesquisa("infraestrutura"),
-    pesquisa("talentos"),
-    pesquisa("base"),
-    pesquisa("evidencias"),
-    { tela: "caso", capitulo: "regras", rotulo: "Regras do jogo rápido" },
-    abrir("q1", "a pergunta-relâmpago 1"), resultado("q1", "da pergunta-relâmpago 1"),
-    abrir("q2", "a pergunta-relâmpago 2"), resultado("q2", "da pergunta-relâmpago 2"),
-    abrir("q3", "a pergunta-relâmpago 3"), resultado("q3", "da pergunta-relâmpago 3"),
-    abrir("q4", "a pergunta-relâmpago 4"), resultado("q4", "da pergunta-relâmpago 4"),
-    abrir("q5", "a pergunta-relâmpago 5"), resultado("q5", "da pergunta-relâmpago 5"),
+    { tela: "espera", rotulo: "Tela de entrada com o QR code (depois, apresente o caso pelo buscador)" },
+    { tela: "regras", rotulo: "Regras do jogo" },
+    abrir("aquecimento", "o aquecimento"),
+    abrir("q1", "a pergunta-relâmpago 1"),
+    abrir("q2", "a pergunta-relâmpago 2"),
+    abrir("q3", "a pergunta-relâmpago 3"),
+    abrir("q4", "a pergunta-relâmpago 4"),
+    abrir("q5", "a pergunta-relâmpago 5"),
+    abrir("cego1", "o teste cego"),
+    { tela: "resultado", pergunta: "cego1", revelar: true, rotulo: "Resultado do jogo: o teste cego, com os autores" },
+    { tela: "podio", rotulo: "Resultado do jogo: o pódio" },
     { tela: "caso", capitulo: "dilema", rotulo: "Pesquisa: qual é o dilema do Google? (fim da apresentação, 10 min)" },
     { tela: "aberta", pergunta: "decisao", rotulo: "Abrir a decisão: 5 minutos para os grupos responderem" },
     { tela: "resultado", pergunta: "decisao", rotulo: "Resultado da decisão: início da discussão conduzida" },
-    { tela: "resultado", pergunta: "cego1", revelar: true, rotulo: "Revelar os autores do teste cego" },
-    { tela: "podio", rotulo: "Pódio" },
     { tela: "caso", capitulo: "recomendacao", liberar: true, rotulo: "Liberar a recomendação do Grupo 7 e mostrar no telão" },
   ];
 
@@ -163,7 +157,10 @@
     p.textContent = msg || "";
     p.hidden = !msg;
     atualizarVisibilidade();
-    setTimeout(function () { try { fChave.chave.focus(); } catch (e) { /* sem foco */ } }, 60);
+    if (!fChave.email.value) fChave.email.value = lerLocal("gemeos.ultimo-email");
+    setTimeout(function () {
+      try { (fChave.email.value ? fChave.chave : fChave.email).focus(); } catch (e) { /* sem foco */ }
+    }, 60);
   }
   function esconderAcesso() {
     acesso.hidden = true;
@@ -175,7 +172,7 @@
     return fetch(API + caminho, {
       method: metodo,
       cache: "no-store",
-      headers: { "content-type": "application/json", "x-admin-key": chave },
+      headers: { "content-type": "application/json", "x-admin-key": chave, "x-admin-email": emailAdmin || "" },
       body: corpo === undefined ? undefined : JSON.stringify(corpo),
     }).then(function (r) {
       return r.json().then(function (d) {
@@ -188,12 +185,16 @@
   fChave.addEventListener("submit", function (ev) {
     ev.preventDefault();
     var tentativa = fChave.chave.value.trim();
+    var emailTentativa = fChave.email.value.trim().toLowerCase();
     if (!tentativa) return;
     var botao = fChave.querySelector("[type=submit]");
     botao.disabled = true;
     chave = tentativa;
+    emailAdmin = emailTentativa;
     admin("GET", "/api/admin/painel").then(function (d) {
       gravarLocal("gemeos.chave", chave);
+      gravarLocal("gemeos.email", emailAdmin);
+      gravarLocal("gemeos.ultimo-email", emailAdmin);
       painel = d;
       fChave.reset();
       esconderAcesso();
@@ -201,7 +202,8 @@
       cicloPainel();
     }).catch(function (e) {
       chave = "";
-      mostrarAcesso(e.status === 401 ? "A chave não confere. Confira com o Grupo 7 e digite de novo." : "Sem conexão com o servidor do jogo. Tente de novo em instantes.");
+      emailAdmin = "";
+      mostrarAcesso(e.status === 401 ? "E-mail ou senha não conferem. Use o e-mail do Insper de um integrante do Grupo 7 e a senha do grupo." : "Sem conexão com o servidor do jogo. Tente de novo em instantes.");
     }).then(function () { botao.disabled = false; });
   });
 
@@ -241,7 +243,7 @@
         chave = "";
         painel = null;
         gravarLocal("gemeos.chave", "");
-        mostrarAcesso("A chave mudou ou não confere. Digite a chave do apresentador de novo.");
+        mostrarAcesso("O acesso mudou ou não confere. Entre de novo com o e-mail e a senha do grupo.");
       }
     }).then(function () { if (chave) timerPainel = setTimeout(cicloPainel, 3000); });
   }
@@ -267,6 +269,16 @@
         recentes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul></div>" : "") +
       (CREDITOS ? '<p class="espera-creditos">' + esc(CREDITOS) + "</p>" : "") +
       "</div>" + '<div class="qr">' + qrSvg(linkEntrada()) + "</div></div>";
+  }
+
+  function telaRegras() {
+    var R = G.regras || { titulo: "Como funciona o jogo", telao: [] };
+    var sala = painel ? painel.sala : "";
+    return topoTela(R.titulo, false) + '<div class="tela-corpo tela-regras"><div class="regras-texto">' +
+      '<h1 class="tela-enunciado">O jogo vai começar</h1><ol class="regras-lista">' +
+      R.telao.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ol></div>" +
+      '<div class="regras-entrar"><div class="qr">' + qrSvg(linkEntrada()) + "</div><p>Ainda não entrou? " + esc(SITE_CURTO) +
+      (sala ? "<br>Código da sala: <b>" + esc(sala) + "</b>" : "") + "</p></div></div>";
   }
 
   function respostasTexto() {
@@ -371,6 +383,7 @@
       else if (e.tela === "resultado" && e.pergunta && e.resultado) tela.innerHTML = telaResultado(e.pergunta, e.resultado);
       else if (e.tela === "placar") tela.innerHTML = telaPlacar(e.placar || []);
       else if (e.tela === "podio") tela.innerHTML = telaPodio(e.placar || []);
+      else if (e.tela === "regras") tela.innerHTML = telaRegras();
       else tela.innerHTML = telaEspera();
     }
     var rod = tela.querySelector("[data-rodape]");
@@ -409,6 +422,7 @@
       return fmt((e.resultado && e.resultado.total) || 0) + " respostas." + autores;
     }
     if (e.tela === "placar" || e.tela === "podio") return fmt(e.jogadores) + " participantes.";
+    if (e.tela === "regras") return "O telão mostra as regras do jogo. " + fmt(e.jogadores) + " participantes.";
     if (e.tela === "caso") return "O telão mostra a pesquisa do caso. Role a página com o mouse, se precisar.";
     return "";
   }
@@ -527,6 +541,8 @@
     }
     else if (acao === "sair") {
       chave = "";
+      emailAdmin = "";
+      gravarLocal("gemeos.email", "");
       painel = null;
       gravarLocal("gemeos.chave", "");
       clearTimeout(timerPainel);

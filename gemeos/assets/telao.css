@@ -190,3 +190,11 @@ body.telao.modo-controle { overflow: auto; font-size: 1rem; }
 .abas { display: flex; gap: 0; margin: 0 0 1rem; border-bottom: 1px solid var(--tinta); }
 .abas button { padding: 0.5rem 0.9rem; border: 0; border-bottom: 3px solid transparent; background: none; cursor: pointer; }
 .abas button[aria-selected="true"] { border-bottom-color: var(--destaque); font-weight: 700; }
+
+/* tela de regras do jogo */
+.tela-regras { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4vw; align-items: center; }
+.regras-lista { margin: 2.5vh 0 0; padding-left: 1.3em; font-size: clamp(1.4rem, 2.5vw, 2.5rem); line-height: 1.35; }
+.regras-lista li { margin: 0 0 1.8vh; }
+.regras-entrar { text-align: center; }
+.regras-entrar .qr svg { display: block; width: min(20vw, 32vh); height: auto; }
+.regras-entrar p { margin: 1.4vh 0 0; font-size: clamp(1rem, 1.4vw, 1.35rem); line-height: 1.4; color: var(--tinta-2); }
