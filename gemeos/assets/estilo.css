@@ -15,6 +15,10 @@
   --destaque-escuro: #8f001c;
   --link: #1f4fae;
   --acerto: #1f7a4d;
+  --grafico-destaque: #2a4f8d;
+  --grafico-claro: #9db2d6;
+  --grafico-contexto: #8c95a5;
+  --grafico-grade: #e3e7ed;
   --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
   --sans: "Public Sans", "Segoe UI", system-ui, sans-serif;
   --margem: clamp(1rem, 3vw, 2rem);
@@ -652,13 +656,97 @@ dialog::backdrop { background: rgba(21, 34, 56, 0.55); }
 .dialogo-acoes { display: flex; align-items: center; gap: 1rem; margin-top: 0.4rem; }
 
 /* ---------- Celular ---------- */
+
+/* ---------- olhar de pessoas, gráficos, regras e fontes oficiais ---------- */
+.inicio-tese { margin-top: 0.6rem; font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--tinta-3); }
+.nota-pessoas { margin: 1.4rem 0 0; padding: 0.1rem 0 0.1rem 1rem; border-left: 2px solid var(--destaque); line-height: 1.55; }
+.nota-pessoas strong { font-weight: 700; }
+.nota-fontes { font-size: 0.8rem; color: var(--tinta-2); }
+.nota-fontes a { color: inherit; }
+
+.grafico { margin: 1.8rem 0 1.6rem; padding: 1rem 0 0; border-top: 1px solid var(--fio); }
+.resumo + .grafico { margin-top: 1.2rem; padding-top: 0; border-top: 0; }
+.grafico-titulo { margin: 0 0 0.8rem; font-family: var(--serif); font-size: 1.2rem; font-weight: 500; line-height: 1.3; }
+.grafico-legenda { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin: -0.3rem 0 0.6rem; font-size: 0.85rem; color: var(--tinta-2); }
+.grafico-legenda span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.g-chave { display: inline-block; width: 0.65rem; height: 0.65rem; border-radius: 50%; }
+.g-chave-claro { background: var(--grafico-claro); }
+.g-chave-destaque { background: var(--grafico-destaque); }
+.grafico-nota { margin: 0.8rem 0 0; font-size: 0.88rem; line-height: 1.5; color: var(--tinta-2); }
+.grafico-fonte { margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--tinta-2); }
+.grafico-fonte a { color: inherit; }
+
+.g-tempo { list-style: none; margin: 0; padding: 0 0 0 0.3rem; }
+.g-tempo li { position: relative; display: grid; grid-template-columns: 5.4rem 1fr; gap: 0.9rem; padding: 0.35rem 0 0.35rem 1.2rem; border-left: 1px solid var(--fio-forte); }
+.g-tempo li::before { content: ""; position: absolute; left: -5px; top: 0.72rem; width: 9px; height: 9px; border-radius: 50%; background: var(--grafico-claro); box-shadow: 0 0 0 2px var(--papel); }
+.g-tempo li.g-forte::before { background: var(--grafico-destaque); }
+.g-tempo-quando { font-size: 0.85rem; color: var(--tinta-2); font-variant-numeric: tabular-nums; padding-top: 0.05rem; }
+.g-tempo li.g-forte .g-tempo-texto { font-weight: 600; }
+
+.g-barras { list-style: none; margin: 0; padding: 0; }
+.g-barra-linha { display: grid; grid-template-columns: minmax(7.5rem, 32%) 1fr; align-items: center; gap: 0.9rem; padding: 0.3rem 0; }
+.g-barra-rotulo { font-size: 0.92rem; }
+.g-barra-trilho { display: flex; align-items: center; gap: 0.5rem; min-width: 0; border-left: 1px solid var(--fio-forte); }
+.g-barra { display: block; flex: none; width: calc(var(--p) * (100% - 3.8rem)); min-width: 3px; height: 1.15rem; border-radius: 0 4px 4px 0; background: var(--grafico-destaque); }
+.g-tom-claro .g-barra { background: var(--grafico-claro); }
+.g-tom-contexto .g-barra { background: var(--grafico-contexto); }
+.g-barra-valor { font-size: 0.92rem; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.g-tom-contexto .g-barra-valor { font-weight: 400; color: var(--tinta-3); }
+
+.g-colunas { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 0; list-style: none; margin: 0; padding: 0; }
+.g-coluna { display: flex; flex-direction: column; min-width: 0; }
+.g-coluna-area { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 10rem; border-bottom: 1px solid var(--fio-forte); }
+.g-coluna-valor { margin-bottom: 0.3rem; font-size: 0.92rem; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.g-coluna-barra { display: block; width: 1.5rem; height: calc(var(--p) * (100% - 1.8rem)); min-height: 3px; border-radius: 4px 4px 0 0; background: var(--grafico-destaque); }
+.g-coluna-rotulo { padding-top: 0.45rem; font-size: 0.82rem; line-height: 1.3; text-align: center; color: var(--tinta-2); }
+
+.g-halteres { list-style: none; margin: 0; padding: 0; }
+.g-haltere { display: grid; grid-template-columns: minmax(8.5rem, 32%) 1fr auto; align-items: center; gap: 0.9rem; padding: 0.55rem 0; border-bottom: 1px solid var(--grafico-grade); }
+.g-haltere-rotulo { font-size: 0.92rem; line-height: 1.3; }
+.g-haltere-trilho { position: relative; height: 1rem; background: linear-gradient(var(--grafico-grade), var(--grafico-grade)) center / 100% 1px no-repeat; }
+.g-haltere-linha { position: absolute; top: 50%; height: 2px; transform: translateY(-50%); background: var(--grafico-claro); }
+.g-haltere-ponto { position: absolute; top: 50%; width: 10px; height: 10px; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 0 2px var(--papel); }
+.g-haltere-ponto.antes { background: var(--grafico-claro); }
+.g-haltere-ponto.depois { background: var(--grafico-destaque); }
+.g-haltere-valor { font-size: 0.88rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.g-haltere-valor small { margin-left: 0.25rem; font-size: 0.82rem; color: var(--tinta-2); }
+.g-haltere.g-forte .g-haltere-rotulo, .g-haltere.g-forte .g-haltere-valor { font-weight: 700; }
+
+.g-numeros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.6rem; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--tinta); }
+.g-numeros li { padding: 0.9rem 0 0.4rem; }
+.g-numero-valor { display: block; margin-bottom: 0.3rem; font-family: var(--serif); font-size: 1.75rem; font-weight: 500; line-height: 1.1; }
+.g-numero-texto { display: block; font-size: 0.88rem; line-height: 1.45; color: var(--tinta-3); }
+
+.tabela-regras { width: 100%; border-collapse: collapse; font-size: 0.95rem; line-height: 1.45; }
+.tabela-regras th, .tabela-regras td { padding: 0.65rem 1rem 0.65rem 0; text-align: left; vertical-align: top; border-bottom: 1px solid var(--fio); }
+.tabela-regras thead th { padding-top: 0; font-size: 0.82rem; font-weight: 600; color: var(--tinta-2); border-bottom: 1px solid var(--tinta); }
+.tabela-regras tbody th { font-weight: 700; }
+.lista-regras { margin: 0 0 2rem; padding-left: 1.2rem; line-height: 1.55; }
+.lista-regras li { margin: 0 0 0.5rem; }
+
+.fontes-intro { margin: -0.3rem 0 0.4rem; color: var(--tinta-2); }
+.serp-secao-primeira { margin-top: 0.4rem; }
+.oficiais { list-style: none; margin: 0.4rem 0 1.4rem; padding: 0; border-top: 1px solid var(--fio); }
+.oficiais li { display: grid; gap: 0.15rem; padding: 0.7rem 0; border-bottom: 1px solid var(--fio); }
+.oficiais a { font-weight: 600; color: var(--link); }
+.oficiais span { font-size: 0.9rem; color: var(--tinta-2); }
+
 @media (max-width: 52rem) {
   .topo { grid-template-columns: 1fr auto; row-gap: 0.75rem; padding-top: 0.85rem; }
   .topo .marca-topo { grid-column: 1; grid-row: 1; }
   .topo .conta { grid-column: 2; grid-row: 1; }
   .topo .busca { grid-column: 1 / -1; grid-row: 2; }
   .abas-busca, .serp, .conta-pagina { padding-left: var(--margem); }
-  .alternativas, .indicadores { grid-template-columns: 1fr; }
+  .alternativas, .indicadores, .g-numeros { grid-template-columns: 1fr; }
+  .g-barra-linha { grid-template-columns: 1fr; gap: 0.2rem; }
+  .g-haltere { grid-template-columns: 1fr auto; grid-template-areas: "rotulo valor" "trilho trilho"; gap: 0.3rem 0.8rem; }
+  .g-haltere-rotulo { grid-area: rotulo; }
+  .g-haltere-valor { grid-area: valor; }
+  .g-haltere-trilho { grid-area: trilho; }
+  .tabela-regras thead { display: none; }
+  .tabela-regras tr { display: block; padding: 0.7rem 0; border-bottom: 1px solid var(--fio); }
+  .tabela-regras th, .tabela-regras td { display: block; padding: 0.1rem 0; border: 0; }
+  .tabela-regras td::before { content: attr(data-rotulo) ": "; color: var(--tinta-2); }
   .projeto-grade { grid-template-columns: 1fr; gap: 2.4rem; }
   .projeto-lado { padding-left: 0; border-left: 0; }
   .pauta li { grid-template-columns: 5.4rem 1fr; }

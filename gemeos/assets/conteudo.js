@@ -169,6 +169,18 @@ window.GEMEOS = {
       data: "nov. 2026",
       url: "https://www.techrepublic.com/article/news-google-employee-buyouts-ai-spending/",
     },
+    release3t26: {
+      nome: "Alphabet, release na SEC",
+      titulo: "Alphabet Announces Third Quarter 2026 Results",
+      data: "out. 2026",
+      url: "https://www.sec.gov/Archives/edgar/data/0001652044/000165204426000080/googexhibit991q32026.htm",
+    },
+    quadroserie: {
+      nome: "FourWeekMBA",
+      titulo: "Google Headcount Rises 7.7% to 204,757 as Revenue Climbs 25%",
+      data: "out. 2026",
+      url: "https://fourweekmba.com/ai-google-headcount-rises-7-7-to-204757-as-revenue-climbs-25/",
+    },
   },
 
   capitulos: [
@@ -208,6 +220,26 @@ window.GEMEOS = {
         },
       ],
       quiz: "q1",
+      pessoas: {
+        texto: "O Google tinha os autores e a tecnologia. Um deles saiu em 2021 criticando a cautela da empresa para lançar, e a resposta ao ChatGPT foi remanejar equipes e unir os dois laboratórios de IA.",
+        fontes: ["fastcompany", "nytcodigo", "deepmind2023"],
+      },
+      graficos: [
+        {
+          tipo: "linha-do-tempo",
+          titulo: "Do Transformer à saída do último autor",
+          eventos: [
+            { quando: "jun. 2017", texto: "Oito pesquisadores do Google publicam o Transformer." },
+            { quando: "2021", texto: "Noam Shazeer, um dos autores, sai e funda a Character.AI." },
+            { quando: "nov. 2022", texto: "A OpenAI lança o ChatGPT, e o Google declara código vermelho." },
+            { quando: "abr. 2023", texto: "Google Brain e DeepMind viram uma só unidade, o Google DeepMind." },
+            { quando: "2024", texto: "O Google traz Shazeer de volta, num acordo de US$ 2,7 bilhões." },
+            { quando: "jun. 2026", texto: "Shazeer sai para a OpenAI. Nenhum dos oito autores segue no Google.", destaque: true },
+            { quando: "ago. 2026", texto: "Jeff Dean sai depois de 27 anos, e Demis Hassabis deixa o comando da DeepMind.", destaque: true },
+          ],
+          fontes: ["arxiv", "fastcompany", "nytcodigo", "deepmind2023", "noqta", "dean", "hassabis"],
+        },
+      ],
       relacionadas: ["talentos", "marca"],
     },
     {
@@ -242,7 +274,11 @@ window.GEMEOS = {
           texto: "A distribuição do Gemini vai além do Android.",
         },
       ],
-      quiz: "q2",
+      quiz: null,
+      pessoas: {
+        texto: "O Gemini nasceu no Google DeepMind, que uniu dois laboratórios, um na Califórnia e outro em Londres. Para alcançar o ChatGPT, a equipe do Gemini foi chamada a trabalhar no escritório todos os dias úteis, em semanas de 60 horas.",
+        fontes: ["deepmind2023", "brin"],
+      },
       relacionadas: ["busca", "largada"],
     },
     {
@@ -284,7 +320,28 @@ window.GEMEOS = {
             "O investimento em infraestrutura deixou o fluxo de caixa livre negativo pelo segundo trimestre seguido, em US$ 9,1 bilhões no terceiro trimestre.",
         },
       ],
-      quiz: "q3",
+      quiz: null,
+      pessoas: {
+        texto: "Os programas de desligamento voluntário chegaram à área comercial, que vende a publicidade, enquanto a nuvem e a pesquisa em IA ficaram de fora. Os dois Googles aparecem também na política de pessoas.",
+        fontes: ["ritmo", "pdvexcluidos"],
+      },
+      graficos: [
+        {
+          tipo: "halteres",
+          titulo: "Receita por área no 3º trimestre, em US$ bilhões",
+          legenda: ["2025", "2026"],
+          max: 70,
+          itens: [
+            { rotulo: "Busca e outros", de: 56.567, ate: 63.35, variacao: "+12%" },
+            { rotulo: "YouTube (anúncios)", de: 10.261, ate: 11.207, variacao: "+9%" },
+            { rotulo: "Rede de anúncios", de: 7.354, ate: 7.455, variacao: "+1%" },
+            { rotulo: "Assinaturas, plataformas e aparelhos", de: 12.87, ate: 14.29, variacao: "+11%" },
+            { rotulo: "Google Cloud", de: 15.157, ate: 30.709, variacao: "+103%", destaque: true },
+          ],
+          nota: "A publicidade (busca, YouTube e rede) era 72,5% da receita da Alphabet e passou a 64,3%.",
+          fontes: ["release3t26"],
+        },
+      ],
       relacionadas: ["infraestrutura", "marca"],
     },
     {
@@ -317,8 +374,29 @@ window.GEMEOS = {
           titulo: "TPU vira produto",
           texto: "Sundar Pichai cita forte demanda por sistemas de TPU de uma ampla gama de clientes.",
         },
+        {
+          fonte: "release3t26",
+          titulo: "Investimento em infraestrutura mais que dobra",
+          texto: "Foram US$ 51,4 bilhões no terceiro trimestre de 2026, contra US$ 24,0 bilhões um ano antes, segundo o release de resultados da Alphabet.",
+        },
       ],
       quiz: null,
+      pessoas: {
+        texto: "Chips se compram e se alugam, pesquisadores não. A Anthropic, que aluga TPUs do Google, é também o principal destino de quem deixa a DeepMind: um em cada quatro.",
+        fontes: ["tpu2025", "zeki"],
+      },
+      graficos: [
+        {
+          tipo: "destaques",
+          titulo: "A conta da infraestrutura",
+          itens: [
+            { valor: "US$ 51,4 bi", texto: "investidos em infraestrutura no 3º trimestre de 2026, mais que o dobro dos US$ 24,0 bi de um ano antes" },
+            { valor: "até 1 milhão", texto: "de TPUs do Google contratadas pela Anthropic em 2025" },
+            { valor: "US$ 9,1 bi", texto: "de fluxo de caixa livre negativo no 3º trimestre de 2026, efeito do investimento" },
+          ],
+          fontes: ["release3t26", "tpu2025"],
+        },
+      ],
       relacionadas: ["busca", "talentos"],
     },
     {
@@ -384,8 +462,34 @@ window.GEMEOS = {
           texto: "As ações da Alphabet caíram 4% no dia do anúncio.",
         },
       ],
-      quiz: "q4",
-      quizExtra: "q5",
+      quiz: "q2",
+      quizExtra: "q3",
+      graficos: [
+        {
+          tipo: "barras",
+          titulo: "Pesquisadores contratados para cada um que sai",
+          itens: [
+            { rotulo: "DeepMind, 2023", valor: 12, texto: "12", tom: "claro" },
+            { rotulo: "DeepMind, 2026", valor: 2, texto: "2", tom: "destaque" },
+            { rotulo: "Anthropic, 2025", valor: 22, texto: "22", tom: "contexto" },
+            { rotulo: "OpenAI, 2025", valor: 5.7, texto: "5,7", tom: "contexto" },
+            { rotulo: "Meta, 2025", valor: 3, texto: "3", tom: "contexto" },
+          ],
+          fontes: ["zeki"],
+        },
+        {
+          tipo: "barras",
+          titulo: "Para onde foram os que deixaram a DeepMind no último ano",
+          itens: [
+            { rotulo: "Anthropic", valor: 25, texto: "25%" },
+            { rotulo: "Meta", valor: 21, texto: "21%" },
+            { rotulo: "OpenAI", valor: 14, texto: "14%" },
+            { rotulo: "Outros destinos", valor: 40, texto: "40%", tom: "contexto" },
+          ],
+          nota: "Outros destinos soma os 40% que não foram para os três laboratórios.",
+          fontes: ["zeki"],
+        },
+      ],
       relacionadas: ["base", "dilema"],
     },
     {
@@ -460,7 +564,21 @@ window.GEMEOS = {
           texto: "Os cortes abalaram o moral enquanto a empresa divulgava resultados fortes e via as ações subirem.",
         },
       ],
-      quiz: null,
+      quiz: "q4",
+      graficos: [
+        {
+          tipo: "colunas",
+          titulo: "Quantas pessoas o quadro da Alphabet ganhou a cada trimestre",
+          itens: [
+            { rotulo: "4º tri 2025", valor: 653, texto: "+653" },
+            { rotulo: "1º tri 2026", valor: 3848, texto: "+3.848" },
+            { rotulo: "2º tri 2026", valor: 4265, texto: "+4.265" },
+            { rotulo: "3º tri 2026", valor: 5824, texto: "+5.824" },
+          ],
+          nota: "Variação do número de funcionários ao fim de cada trimestre, incluindo aquisições. O quadro passou de 190.167 pessoas em setembro de 2025 para 204.757 em setembro de 2026, enquanto o desligamento voluntário chegava a sete países.",
+          fontes: ["release3t26", "quadroserie", "pdv2026"],
+        },
+      ],
       relacionadas: ["dilema", "talentos"],
     },
     {
@@ -482,6 +600,31 @@ window.GEMEOS = {
         { valor: "204.757", texto: "funcionários no fim de setembro de 2026, 10 mil a mais do que em março. O quadro cresce enquanto a elite de pesquisa sai.", fontes: ["quadro"] },
       ],
       relacionadas: ["talentos", "base", "dilema"],
+    },
+    {
+      id: "regras",
+      consulta: "como funciona o jogo?",
+      titulo: "Regras e pontuação do jogo",
+      rotulo: "Como funciona",
+      trecho: "Cinco perguntas-relâmpago de 20 segundos, depois das pesquisas. Vale acertar e vale ser rápido.",
+      palavras: ["regras", "regra", "pontuação", "pontos", "critérios", "critério", "jogo", "tempo", "rapidez", "placar", "ranking", "pódio", "empate"],
+      resposta:
+        "O jogo vem depois das pesquisas: são cinco perguntas-relâmpago de 20 segundos sobre o que acabou de ser apresentado. Nelas, vale acertar e vale ser rápido. O aquecimento, o teste cego e a decisão também dão pontos, e o pódio sai depois da decisão.",
+      pontuacao: [
+        { etapa: "Aquecimento", quando: "na abertura", tempo: "30 segundos", pontos: "50 pontos por votar" },
+        { etapa: "Teste cego", quando: "na abertura", tempo: "90 segundos", pontos: "100 pontos por votar" },
+        { etapa: "Perguntas-relâmpago (5)", quando: "depois das pesquisas", tempo: "20 segundos cada", pontos: "Certa: 500 pontos, mais até 500 pela rapidez. Errada: 0" },
+        { etapa: "Decisão", quando: "no fim da apresentação", tempo: "5 minutos", pontos: "200 pontos com justificativa de pelo menos 15 caracteres, 100 sem justificativa" },
+      ],
+      regras: [
+        "A rapidez conta só nas perguntas-relâmpago. O bônus cai de forma contínua ao longo dos 20 segundos: quem acerta logo no início leva perto de 1.000 pontos, e quem acerta no último segundo leva 500.",
+        "Nas perguntas-relâmpago, a resposta só vale dentro do tempo. Nas outras etapas, vale enquanto a pergunta estiver aberta.",
+        "Cada pessoa responde uma vez por pergunta, e a resposta não pode ser trocada depois de enviada.",
+        "No aquecimento, no teste cego e na decisão não há resposta certa: os pontos são pela participação.",
+        "Quem tem a mesma pontuação divide a posição no placar.",
+        "Para jogar, use o seu e-mail de aluno do Insper, terminado em @al.insper.edu.br. O placar mostra o primeiro nome e a inicial do sobrenome, e os dados são apagados depois da aula.",
+      ],
+      relacionadas: ["largada", "talentos", "dilema"],
     },
     {
       id: "dilema",
@@ -557,24 +700,34 @@ window.GEMEOS = {
   ],
 
   sugestoes: ["largada", "marca", "busca", "infraestrutura", "talentos", "base", "evidencias", "dilema"],
+  oficiais: [
+    { nome: "Alphabet: relações com investidores", texto: "Resultados trimestrais, relatórios anuais, apresentações e teleconferências da companhia.", url: "https://abc.xyz/investor/" },
+    { nome: "Resultado do 3º trimestre de 2026", texto: "Release oficial de 28 de outubro de 2026, com a receita por área e o número de funcionários.", url: "https://www.sec.gov/Archives/edgar/data/0001652044/000165204426000080/googexhibit991q32026.htm" },
+    { nome: "Alphabet na SEC", texto: "Formulários 10-K e 10-Q, com o número de funcionários e a seção sobre capital humano.", url: "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001652044" },
+    { nome: "Blog oficial do Google", texto: "Anúncios da empresa, dos produtos e das lideranças.", url: "https://blog.google/" },
+    { nome: "Blog do Google DeepMind", texto: "Pesquisas e anúncios do laboratório de IA do Google.", url: "https://deepmind.google/discover/blog/" },
+    { nome: "re:Work, do Google", texto: "Guias públicos de gestão de pessoas do Google, com o Project Oxygen e o Project Aristotle.", url: "https://rework.withgoogle.com/en/subjects/people-analytics" },
+  ],
 
   grupo: "Grupo 7: Carlos Balthazar Summ, Leonardo Danesi, Thiago Fachin e Vinicius Assensio",
   disciplina: "Gestão Estratégica de Pessoas (MBA10399GEP, turma 2026/34), MBA Executivo, Insper. Prof. Aloisio B. Buoro",
 
   projeto: {
     narrativa: [
-      "O Google criou a tecnologia por trás do ChatGPT, tem parte da infraestrutura que move a inteligência artificial e, ainda assim, vê sair os cientistas que fazem a IA. Gemini quer dizer gêmeos, e este caso trata dos dois Googles que convivem na mesma empresa: o da busca e da publicidade, que paga as contas, e o da inteligência artificial, que decide o futuro.",
-      "O formato é uma provocação. O buscador, produto que fez do Google o que ele é, vira a ferramenta para contar a história do próprio Google na corrida da IA. Cada pesquisa abre um tema, com um resumo e os resultados das fontes, e a turma participa pelo celular.",
+      "Este é um caso de gestão estratégica de pessoas. O Google criou a tecnologia por trás do ChatGPT, tem parte da infraestrutura que move a inteligência artificial e, ainda assim, vê sair os cientistas que fazem a IA. Gemini quer dizer gêmeos, e o caso trata dos dois Googles que convivem na mesma empresa: o da busca e da publicidade, que paga as contas, e o da inteligência artificial, que decide o futuro. Cada um pede uma forma diferente de atrair, pagar, avaliar e reter pessoas.",
+      "Por mais que a IA seja uma máquina, ela depende das pessoas que a fizeram e que a mantêm, pelo menos por enquanto. Por isso, a pergunta do caso não é sobre tecnologia nem sobre publicidade, e sim sobre pessoas.",
+      "O formato é uma provocação. O buscador, produto que fez do Google o que ele é, vira a ferramenta para contar a história do próprio Google na corrida da IA. Cada pesquisa abre um tema, com um resumo, números e os resultados das fontes, e a turma participa pelo celular.",
       "A pergunta final é de gestão de pessoas: que estratégia transforma o Google em empresa de IA sem perder quem faz a IA?",
     ],
     pautaResumo: "25 minutos em 2 de dezembro de 2026: 10 de apresentação, 5 para os grupos responderem ao dilema e 10 de discussão conduzida pelo Grupo 7.",
     pauta: [
       { tempo: "0 a 1 min", titulo: "Abertura", texto: "QR code, cadastro e voto de aquecimento." },
       { tempo: "1 a 3 min", titulo: "Teste cego", texto: "uma pergunta respondida por Gemini, ChatGPT e Claude, sem identificação." },
-      { tempo: "3 a 8 min", titulo: "O caso em seis pesquisas", texto: "do Transformer à saída dos cientistas, com duas perguntas-relâmpago." },
-      { tempo: "8 a 10 min", titulo: "Os números e o dilema", texto: "as evidências do problema e a pergunta para a turma." },
+      { tempo: "3 a 7 min", titulo: "O caso em sete pesquisas", texto: "os dois Googles do ponto de vista das pessoas, com números e gráficos." },
+      { tempo: "7 a 9 min", titulo: "Jogo rápido", texto: "cinco perguntas-relâmpago de 20 segundos sobre o que acabou de ser apresentado." },
+      { tempo: "9 a 10 min", titulo: "O dilema", texto: "a pergunta que fecha a apresentação." },
       { tempo: "10 a 15 min", titulo: "Os grupos respondem", texto: "cada participante escolhe uma estratégia e justifica, pelo celular." },
-      { tempo: "15 a 25 min", titulo: "Discussão conduzida", texto: "resultado da votação, alternativas, autores do teste cego, pódio e recomendação do Grupo 7." },
+      { tempo: "15 a 25 min", titulo: "Discussão conduzida", texto: "resultado da votação, autores do teste cego, pódio e recomendação do Grupo 7." },
     ],
     ia: [
       ["Claude (Anthropic)", "apoio à pesquisa e à conferência das fontes, rascunhos dos textos, construção do site, do jogo e da versão escrita"],
@@ -601,5 +754,5 @@ window.GEMEOS = {
     ],
   },
   metodo:
-    "Caso de ensino elaborado pelo Grupo 7 a partir de fontes públicas, citadas em cada resultado. Os números foram conferidos nas fontes listadas. As respostas do teste cego foram obtidas pelo grupo nos aplicativos Gemini, ChatGPT e Claude, com a mesma pergunta e no mesmo dia. O uso de inteligência artificial em cada etapa está descrito na seção Uso de IA.",
+    "Caso de ensino elaborado pelo Grupo 7 a partir de fontes públicas, citadas em cada resultado. Os números foram conferidos nas fontes listadas, e os de receita, investimento e funcionários da Alphabet também no release oficial do terceiro trimestre de 2026. As respostas do teste cego foram obtidas pelo grupo nos aplicativos Gemini, ChatGPT e Claude, com a mesma pergunta e no mesmo dia. O uso de inteligência artificial em cada etapa está descrito na seção Uso de IA.",
 };

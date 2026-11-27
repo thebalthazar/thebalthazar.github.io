@@ -67,12 +67,15 @@
   /* Em que capítulos cada fonte é usada */
   var usoFonte = {};
   G.capitulos.forEach(function (c) {
-    (c.fatos || []).forEach(function (f) {
-      [f.fonte, f.fonteExtra].forEach(function (k) {
-        if (!k) return;
-        usoFonte[k] = usoFonte[k] || [];
-        if (usoFonte[k].indexOf(c.id) < 0) usoFonte[k].push(c.id);
-      });
+    var chaves = [];
+    (c.fatos || []).forEach(function (f) { chaves.push(f.fonte, f.fonteExtra); });
+    (c.graficos || []).forEach(function (g) { chaves = chaves.concat(g.fontes || []); });
+    (c.indicadores || []).forEach(function (i) { chaves = chaves.concat(i.fontes || []); });
+    if (c.pessoas) chaves = chaves.concat(c.pessoas.fontes || []);
+    chaves.forEach(function (k) {
+      if (!k) return;
+      usoFonte[k] = usoFonte[k] || [];
+      if (usoFonte[k].indexOf(c.id) < 0) usoFonte[k].push(c.id);
     });
   });
   function fontesDoCapitulo(c) {
@@ -188,7 +191,7 @@
   function rodape() {
     return '<footer class="rodape"><p>' + esc(P.rodape) + "</p>" +
       '<nav aria-label="Rodapé"><a href="#/sobre">O projeto</a><a href="#/sobre?secao=aviso">Aviso</a>' +
-      '<a href="#/caso/fontes">Fontes</a><a href="telao.html">Área do apresentador</a></nav></footer>';
+      '<a href="#/caso/fontes">Fontes</a><a href="#/caso/regras">Regras do jogo</a><a href="telao.html">Área do apresentador</a></nav></footer>';
   }
 
   function pautaHtml() {
@@ -265,7 +268,7 @@
         return '<a href="' + esc(f.url) + '" target="_blank" rel="noopener">' + esc(f.nome) + "</a>";
       })) + ".</p>" : "";
     return '<section class="resumo">' +
-      '<p class="resumo-rotulo"><span class="marca-mini" aria-hidden="true"></span>Resumo do caso</p>' +
+      '<p class="resumo-rotulo"><span class="marca-mini" aria-hidden="true"></span>' + esc(c.rotulo || "Resumo do caso") + "</p>" +
       "<" + h + ' class="resumo-titulo">' + esc(c.titulo) + "</" + h + ">" +
       '<p class="resumo-texto">' + esc(c.resposta) + "</p>" + linhaFontes +
       (comLink ? '<p class="resumo-mais"><a href="' + linkCap(c.id) + '">Ver o tema completo</a></p>' : "") +
@@ -276,6 +279,96 @@
     if (MODO_TELAO || !API) return "";
     var resto = J.token ? " Ela aparece na sua tela quando o apresentador abrir." : ' <a href="#/entrar">Entre no jogo</a> para responder.';
     return '<p class="aviso-jogo">' + esc(texto) + resto + "</p>";
+  }
+
+  function linksFontes(ids) {
+    return (ids || []).filter(function (k) { return G.fontes[k]; }).map(function (k) {
+      var f = G.fontes[k];
+      return '<a href="' + esc(f.url) + '" target="_blank" rel="noopener">' + esc(f.nome) + "</a>";
+    });
+  }
+
+  function pessoasHtml(c) {
+    if (!c.pessoas) return "";
+    var f = linksFontes(c.pessoas.fontes);
+    return '<p class="nota-pessoas"><strong>Para a gestão de pessoas:</strong> ' + esc(c.pessoas.texto) +
+      (f.length ? ' <span class="nota-fontes">Fontes: ' + juntar(f) + ".</span>" : "") + "</p>";
+  }
+
+  function numero(v, casas) {
+    return Number(v).toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas });
+  }
+
+  function maiorValor(itens, campo) {
+    return Math.max.apply(null, itens.map(function (i) { return i[campo]; }));
+  }
+
+  function graficoHtml(g) {
+    var legenda = "";
+    var corpo = "";
+    if (g.tipo === "linha-do-tempo") {
+      corpo = '<ol class="g-tempo">' + g.eventos.map(function (e) {
+        return "<li" + (e.destaque ? ' class="g-forte"' : "") + '><span class="g-tempo-quando">' + esc(e.quando) + "</span>" +
+          '<span class="g-tempo-texto">' + esc(e.texto) + "</span></li>";
+      }).join("") + "</ol>";
+    } else if (g.tipo === "barras") {
+      var maxB = g.max || maiorValor(g.itens, "valor");
+      corpo = '<ul class="g-barras">' + g.itens.map(function (i) {
+        return '<li class="g-barra-linha g-tom-' + (i.tom || "destaque") + '"><span class="g-barra-rotulo">' + esc(i.rotulo) + "</span>" +
+          '<span class="g-barra-trilho"><span class="g-barra" style="--p:' + (i.valor / maxB).toFixed(4) + '"></span>' +
+          '<span class="g-barra-valor">' + esc(i.texto) + "</span></span></li>";
+      }).join("") + "</ul>";
+    } else if (g.tipo === "colunas") {
+      var maxC = g.max || maiorValor(g.itens, "valor");
+      corpo = '<ol class="g-colunas" style="--n:' + g.itens.length + '">' + g.itens.map(function (i) {
+        return '<li class="g-coluna"><span class="g-coluna-area"><span class="g-coluna-valor">' + esc(i.texto) + "</span>" +
+          '<span class="g-coluna-barra" style="--p:' + (i.valor / maxC).toFixed(4) + '"></span></span>' +
+          '<span class="g-coluna-rotulo">' + esc(i.rotulo) + "</span></li>";
+      }).join("") + "</ol>";
+    } else if (g.tipo === "halteres") {
+      var maxH = g.max || maiorValor(g.itens, "ate");
+      legenda = '<p class="grafico-legenda"><span><i class="g-chave g-chave-claro" aria-hidden="true"></i>' + esc(g.legenda[0]) + "</span>" +
+        '<span><i class="g-chave g-chave-destaque" aria-hidden="true"></i>' + esc(g.legenda[1]) + "</span></p>";
+      corpo = '<ul class="g-halteres">' + g.itens.map(function (i) {
+        var a = (i.de / maxH) * 100;
+        var b = (i.ate / maxH) * 100;
+        return '<li class="g-haltere' + (i.destaque ? " g-forte" : "") + '"><span class="g-haltere-rotulo">' + esc(i.rotulo) + "</span>" +
+          '<span class="g-haltere-trilho" aria-hidden="true"><span class="g-haltere-linha" style="left:' + a.toFixed(2) + "%;width:" + (b - a).toFixed(2) + '%"></span>' +
+          '<span class="g-haltere-ponto antes" style="left:' + a.toFixed(2) + '%"></span><span class="g-haltere-ponto depois" style="left:' + b.toFixed(2) + '%"></span></span>' +
+          '<span class="g-haltere-valor">' + numero(i.de, 1) + " → " + numero(i.ate, 1) + " <small>" + esc(i.variacao) + "</small></span></li>";
+      }).join("") + "</ul>";
+    } else if (g.tipo === "destaques") {
+      corpo = '<ul class="g-numeros">' + g.itens.map(function (i) {
+        return '<li><span class="g-numero-valor">' + esc(i.valor) + '</span><span class="g-numero-texto">' + esc(i.texto) + "</span></li>";
+      }).join("") + "</ul>";
+    }
+    var fontes = linksFontes(g.fontes);
+    return '<figure class="grafico grafico-' + g.tipo + '"><figcaption class="grafico-titulo">' + esc(g.titulo) + "</figcaption>" + legenda + corpo +
+      (g.nota ? '<p class="grafico-nota">' + esc(g.nota) + "</p>" : "") +
+      (fontes.length ? '<p class="grafico-fonte">' + (fontes.length > 1 ? "Fontes: " : "Fonte: ") + juntar(fontes) + ".</p>" : "") + "</figure>";
+  }
+
+  function graficosHtml(c) {
+    return (c.graficos || []).map(graficoHtml).join("");
+  }
+
+  function regrasHtml(c) {
+    var colunas = ["Etapa", "Quando", "Tempo", "Pontos"];
+    return '<p class="serp-contagem">' + c.pontuacao.length + " etapas com pontos e " + c.regras.length + " regras</p>" + resumoHtml(c, 1, false) +
+      '<h2 class="serp-secao">Como pontuar</h2>' +
+      '<table class="tabela-regras"><thead><tr>' + colunas.map(function (t) { return '<th scope="col">' + t + "</th>"; }).join("") + "</tr></thead><tbody>" +
+      c.pontuacao.map(function (r) {
+        return '<tr><th scope="row">' + esc(r.etapa) + '</th><td data-rotulo="Quando">' + esc(r.quando) + '</td><td data-rotulo="Tempo">' + esc(r.tempo) + "</td>" +
+          '<td data-rotulo="Pontos">' + esc(r.pontos) + "</td></tr>";
+      }).join("") + "</tbody></table>" +
+      '<h2 class="serp-secao">Regras</h2><ul class="lista-regras">' + c.regras.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") + "</ul>" +
+      avisoJogo("As perguntas aparecem no celular quando o apresentador abre cada uma.");
+  }
+
+  function oficiaisHtml() {
+    return '<ul class="oficiais">' + (G.oficiais || []).map(function (o) {
+      return '<li><a href="' + esc(o.url) + '" target="_blank" rel="noopener">' + esc(o.nome) + "</a><span>" + esc(o.texto) + "</span></li>";
+    }).join("") + "</ul>";
   }
 
   function relacionadasHtml(c) {
@@ -298,7 +391,8 @@
       caixaBusca("", "busca-inicio", "inicio") +
       '<div class="inicio-botoes"><button class="botao-busca" type="submit" form="busca-inicio-form">Pesquisar no caso</button>' +
       '<button class="botao-busca" type="button" data-surpresa>Me surpreenda</button></div>' +
-      '<p class="inicio-sub">Gemini quer dizer gêmeos. Este é um caso sobre os dois Googles: o da busca e da publicidade, e o da inteligência artificial.</p>' +
+      '<p class="inicio-sub">Gemini quer dizer gêmeos. Este é um caso de gestão de pessoas sobre os dois Googles: o da busca e da publicidade, e o da inteligência artificial.</p>' +
+      '<p class="inicio-sub inicio-tese">Por mais que a IA seja uma máquina, ela depende das pessoas que a fizeram e que a mantêm, pelo menos por enquanto.</p>' +
       '<p class="inicio-creditos">' + esc(P.creditos) + "</p>" +
       '<button class="link-projeto" type="button" data-ir-projeto>Conheça o projeto e a pauta</button>' +
       "</div>" + projetoHtml() + "</main>" + rodape() + "</div>";
@@ -335,7 +429,7 @@
     if (id === "fontes") { paginaFontes(); return; }
     ultimaBusca = linkCap(id);
     document.title = c.consulta + ": Gêmeos";
-    var html = cabecalho(c.consulta, "tudo") + '<main class="serp' + (id === "dilema" || c.indicadores ? " serp-larga" : "") + '" id="conteudo">';
+    var html = cabecalho(c.consulta, "tudo") + '<main class="serp' + (id === "dilema" || c.indicadores || c.pontuacao ? " serp-larga" : "") + '" id="conteudo">';
     if (c.bloqueado) {
       html += '<section class="resumo"><p class="resumo-rotulo"><span class="marca-mini" aria-hidden="true"></span>Resposta do Grupo 7</p>' +
         '<h1 class="resumo-titulo">' + esc(c.titulo) + "</h1>" +
@@ -344,6 +438,8 @@
       html += '<p class="serp-contagem">' + c.indicadores.length + " indicadores, com a fonte de cada número</p>" +
         resumoHtml(c, 1, false) +
         '<h2 class="serp-secao">Os números do problema</h2>' + indicadoresHtml(c);
+    } else if (c.pontuacao) {
+      html += regrasHtml(c);
     } else if (id === "dilema") {
       html += resumoHtml(c, 1, false) +
         '<p class="papel">' + esc(c.papel) + "</p>" +
@@ -359,8 +455,8 @@
         avisoJogo("A votação da decisão abre no fim da apresentação.");
     } else {
       html += '<p class="serp-contagem">' + c.fatos.length + " resultados de fontes públicas</p>" +
-        resumoHtml(c, 1, false) +
-        (c.quiz ? avisoJogo("Este tema tem pergunta-relâmpago no jogo.") : "") +
+        resumoHtml(c, 1, false) + pessoasHtml(c) + graficosHtml(c) +
+        (c.quiz ? avisoJogo("Este tema cai no jogo rápido, depois das pesquisas.") : "") +
         '<h2 class="oculto-leitor">Resultados</h2><ol class="resultados">' + c.fatos.map(resultadoFato).join("") + "</ol>";
     }
     html += relacionadasHtml(c) + "</main>" + rodape();
@@ -374,6 +470,9 @@
     document.title = "Fontes do caso: Gêmeos";
     var chaves = Object.keys(G.fontes);
     app.innerHTML = cabecalho("fontes do caso", "fontes") + '<main class="serp" id="conteudo"><h1 class="oculto-leitor">Fontes do caso</h1>' +
+      '<h2 class="serp-secao serp-secao-primeira">Direto da companhia</h2>' +
+      '<p class="fontes-intro">Para conferir as informações na origem: resultados, relatórios, anúncios e práticas de pessoas do Google e da Alphabet.</p>' + oficiaisHtml() +
+      '<h2 class="serp-secao">Fontes citadas no caso</h2>' +
       '<p class="serp-contagem">' + chaves.length + " fontes públicas, com link para a origem de cada número</p>" +
       '<ol class="resultados">' + chaves.map(function (k) {
         var f = G.fontes[k];
@@ -395,11 +494,12 @@
       '<h2 id="sobre-pauta">Pauta da apresentação</h2><p>' + esc(P.pautaResumo) + "</p>" + pautaHtml() +
       '<h2 id="sobre-ficha">Ficha</h2>' + fichaHtml() +
       '<h2 id="sobre-ia">Uso de IA</h2><p>Ferramentas de inteligência artificial usadas no trabalho e a finalidade de cada uma:</p>' + iaHtml() +
+      '<h2 id="sobre-oficiais">Fontes oficiais da companhia</h2><p>Para conferir as informações direto na origem:</p>' + oficiaisHtml() +
       '<h2 id="sobre-aviso">Aviso</h2>' + P.aviso.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
       "<h2>Como funciona</h2>" +
-      "<p>Cada pesquisa abre um tema do caso, com um resumo e os resultados das fontes. Durante a apresentação, a turma participa pelo celular: um teste cego entre assistentes de IA, perguntas-relâmpago com placar e a votação da decisão final.</p>" +
+      "<p>Cada pesquisa abre um tema do caso, com um resumo, números e os resultados das fontes. Durante a apresentação, a turma participa pelo celular: um teste cego entre assistentes de IA, cinco perguntas-relâmpago depois das pesquisas e a votação da decisão final. As regras e a pontuação estão em <a href=\"#/caso/regras\">como funciona o jogo</a>.</p>" +
       '<h2 id="sobre-privacidade">Privacidade</h2>' +
-      "<p>O jogo pede nome e e-mail do Insper só para montar o placar desta aula. O placar mostra o primeiro nome e a inicial do sobrenome. Neste aparelho, o site guarda apenas o seu nome e o código da sua sessão no jogo. Os dados da turma são apagados depois da apresentação.</p>" +
+      "<p>O jogo pede nome e e-mail de aluno do Insper (terminado em @al.insper.edu.br) só para montar o placar desta aula. O placar mostra o primeiro nome e a inicial do sobrenome. Neste aparelho, o site guarda apenas o seu nome e o código da sua sessão no jogo. Os dados da turma são apagados depois da apresentação.</p>" +
       "<h2>Método</h2><p>" + esc(G.metodo) + "</p>" +
       '<h2>Área do apresentador</h2><p>O telão e os controles da apresentação ficam na <a href="telao.html">área do apresentador</a>, que pede a chave do Grupo 7.</p>' +
       "</article></main>" + rodape();
@@ -409,7 +509,7 @@
   function formEntrarHtml(sala) {
     return '<form id="form-entrar" class="conta-form" novalidate>' +
       '<label class="campo"><span>Nome e sobrenome</span><input name="nome" autocomplete="name" maxlength="60" required></label>' +
-      '<label class="campo"><span>E-mail do Insper</span><input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="voce@al.insper.edu.br" required></label>' +
+      '<label class="campo"><span>E-mail de aluno do Insper</span><input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="voce@al.insper.edu.br" required></label>' +
       '<label class="campo"><span>Código da sala</span><input name="sala" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="8" required value="' + esc(String(sala || "").toUpperCase()) + '">' +
       "<small>O código aparece no telão.</small></label>" +
       '<button class="botao botao-principal botao-largo" type="submit">Entrar no jogo</button>' +
@@ -421,7 +521,7 @@
     document.title = "Entrar no jogo: Gêmeos";
     app.innerHTML = cabecalho("", "jogo") + '<main class="conta-pagina" id="conteudo">' +
       "<h1>Entrar no jogo</h1>" +
-      '<p class="conta-intro">Durante a apresentação, as perguntas aparecem aqui na sua tela. Nas perguntas-relâmpago, quem acerta mais rápido ganha mais pontos.</p>' +
+      '<p class="conta-intro">Durante a apresentação, as perguntas aparecem aqui na sua tela. Nas perguntas-relâmpago, quem acerta mais rápido ganha mais pontos. <a href="#/caso/regras">Veja as regras e a pontuação</a>.</p>' +
       (API ? formEntrarHtml(sala) : '<p class="status-apoio">O jogo não está disponível neste endereço.</p>') +
       "</main>" + rodape();
     var f = el("#form-entrar");
@@ -477,6 +577,7 @@
       "<li>Deixe esta página aberta. Quando o apresentador abre uma pergunta, ela aparece sozinha na sua tela.</li>" +
       "<li>Nas perguntas-relâmpago, quem acerta mais rápido ganha mais pontos. O voto de aquecimento e o teste cego também pontuam.</li>" +
       "<li>Na decisão final, escolha uma alternativa e justifique em uma linha. Com justificativa, a decisão vale o dobro.</li>" +
+      '<li>As regras completas e a pontuação estão em <a href="#/caso/regras">como funciona o jogo</a>.</li>' +
       "</ol></section>" +
       '<p class="conta-sair"><button class="botao-texto" type="button" data-sair>Sair do jogo neste aparelho</button></p>' +
       "</main>" + rodape();
@@ -788,6 +889,11 @@
     var msg = f.querySelector(".mensagem-erro");
     function avisar(t) { msg.textContent = t; msg.hidden = !t; }
     avisar("");
+    if (!/^[^@\s]+@al\.insper\.edu\.br$/i.test(f.email.value.trim())) {
+      avisar("Use o seu e-mail de aluno do Insper, terminado em @al.insper.edu.br.");
+      f.email.focus();
+      return;
+    }
     botao.disabled = true;
     botao.textContent = "Entrando…";
     fetch(API + "/api/entrar", {
